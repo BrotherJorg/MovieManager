@@ -52,6 +52,7 @@ class ManageMoviesView(QMainWindow):
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
         viewButton = QPushButton("View Details")
+        viewButton.clicked.connect(self.viewDetails)
         editButton = QPushButton("Edit Movie")
         delButton = QPushButton("Delete Movie")
 
@@ -119,3 +120,25 @@ class ManageMoviesView(QMainWindow):
         self.service.addMovie(movie)
 
         self.loadMovies()
+
+    def viewDetails(self):
+        row = self.movieTable.currentRow()
+
+        if row == -1:
+            return
+
+        movies = self.service.getMovie()
+        movie = movies[row]
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Movie Details")
+
+        layout = QFormLayout()
+        dialog.setLayout(layout)
+
+        layout.addRow("Title:", QLabel(movie.title))
+        layout.addRow("Genre:", QLabel(movie.genre))
+        layout.addRow("Year:", QLabel(str(movie.year)))
+        layout.addRow("Rating:", QLabel(str(movie.rating)))
+
+        dialog.exec()
