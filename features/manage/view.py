@@ -54,7 +54,9 @@ class ManageMoviesView(QMainWindow):
         viewButton = QPushButton("View Details")
         viewButton.clicked.connect(self.viewDetails)
         editButton = QPushButton("Edit Movie")
+        editButton.clicked.connect(self.editMovie)
         delButton = QPushButton("Delete Movie")
+        delButton.clicked.connect(self.deleteMovie)
 
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
@@ -91,15 +93,15 @@ class ManageMoviesView(QMainWindow):
        formLayout = QFormLayout()
        dialog.setLayout(formLayout)
 
-       self.inputTitle = QLineEdit()
-       self.inputYear = QLineEdit()
-       self.inputGenre = QLineEdit()
-       self.inputRating = QLineEdit()
+       self.titleInput = QLineEdit()
+       self.yearInput = QLineEdit()
+       self.genreInput = QLineEdit()
+       self.ratingInput = QLineEdit()
        
-       formLayout.addRow("Title:", self.inputTitle)
-       formLayout.addRow("Genre:", self.inputGenre)
-       formLayout.addRow("Year:", self.inputYear)
-       formLayout.addRow("Rating:", self.inputRating)
+       formLayout.addRow("Title:", self.titleInput)
+       formLayout.addRow("Genre:", self.genreInput)
+       formLayout.addRow("Year:", self.yearInput)
+       formLayout.addRow("Rating:", self.ratingInput)
 
        addButton = QPushButton("Add")
        canButton = QPushButton("Cancel")
@@ -110,16 +112,17 @@ class ManageMoviesView(QMainWindow):
        dialog.exec()
 
     def saveMovie(self):
-        title = self.inputTitle.text()
-        genre = self.inputGenre.text()
-        year = int(self.inputYear.text())
-        rating = float(self.inputRating.text())
+        title = self.titleInput.text()
+        genre = self.genreInput.text()
+        year = int(self.yearInput.text())
+        rating = float(self.ratingInput.text())
        
         movie = Movie(title, genre, year, rating)
 
         self.service.addMovie(movie)
 
         self.loadMovies()
+
 
     def viewDetails(self):
         row = self.movieTable.currentRow()
@@ -142,3 +145,60 @@ class ManageMoviesView(QMainWindow):
         layout.addRow("Rating:", QLabel(str(movie.rating)))
 
         dialog.exec()
+
+    def editMovie(self):
+        row = self.movieTable.currentRow()
+
+        if row == -1:
+            return
+
+        movies = self.service.getMovie()
+        movie = movies[row]
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Edit Movie")
+
+        formLayout = QFormLayout()
+        dialog.setLayout(formLayout)
+
+        self.titleInput = QLineEdit(movie.title)
+        self.yearInput = QLineEdit(str(movie.year))
+        self.genreInput = QLineEdit(movie.genre)
+        self.ratingInput = QLineEdit(str(movie.rating))
+
+        formLayout.addRow("Title:", self.titleInput)
+        formLayout.addRow("Genre:", self.genreInput)
+        formLayout.addRow("Year:", self.yearInput)
+        formLayout.addRow("Rating:", self.ratingInput)
+
+        saveButton = QPushButton("Save")
+        cancelButton = QPushButton("Cancel")
+
+        formLayout.addRow(saveButton, cancelButton)
+
+        saveButton.clicked.connect(lambda: self.saveEdit(dialog, movie))
+        cancelButton.clicked.connect(dialog.reject)
+
+        dialog.exec()
+
+
+    def saveEdit(self, dialog, movie):
+        movie.title = self.titleInput.text()
+        movie.genre = self.genreInput.text()
+        movie.year = int(self.yearInput.text())
+        movie.rating = float(self.ratingInput.text())
+
+        dialog.accept()
+        self.loadMovies()
+
+    def deleteMovie(self):
+        row = self.movieTable.currentRow()
+
+        if row == -1:
+         return
+
+        movies = self.service.getMovie()
+        movie = movies[row]
+        
+        movies.remove(movie)
+        self.loadMovies()
