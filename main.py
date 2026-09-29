@@ -15,4 +15,4 @@ app = QApplication(sys.argv)
 window = ManageMoviesView(service)
 window.show()
 
-sys.exit(app.exec())
+sys.exit(app.exec()) 
