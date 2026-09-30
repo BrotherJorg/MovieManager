@@ -1,3 +1,4 @@
+from pickletools import read_uint1
 from .model import Movie
 from db.database import Database
 import sqlite3
@@ -57,7 +58,7 @@ class MovieRepository:
         """, (
             movie.title,
             movie.genre,
-            movie.year,
+            movie.year, 
             movie.rating,
             movie.id
             )
@@ -76,7 +77,7 @@ class MovieRepository:
         self.database.connection.commit()
 
 
-    def searchMoves(self, searchText, genre):
+    def searchMovies(self, searchText, genre):
 
         conditions = []
         values = []
@@ -85,7 +86,7 @@ class MovieRepository:
             conditions.append("title LIKE ?")
             values.append(f"%{searchText}%")
 
-        if genre != "All genres":
+        if genre != "All Genres":
             conditions.append("genre = ?")
             values.append(genre)
 
@@ -102,3 +103,16 @@ class MovieRepository:
         cursor.execute(query, values)
 
         rows = cursor.fetchall()
+
+        movies = []
+        for row in rows:
+            movie = Movie(
+                row[1],
+                row[2],
+                row[3],
+                row[4],
+                row[0]
+            )
+            movies.append(movie)
+
+        return movies

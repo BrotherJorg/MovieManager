@@ -8,7 +8,7 @@ from features.manage.view import ManageMoviesView
 
 
 repository = MovieRepository()
-service = MovieService(repository)
+service = MovieService(repository)  
 
 app = QApplication(sys.argv)
 

@@ -51,7 +51,21 @@ class ManageMoviesView(QMainWindow):
         main_layout.addLayout(right_layout)
 
         search_layout = QHBoxLayout()
-        main_layout.addLayout(search_layout)
+        right_layout.addLayout(search_layout)
+
+        self.searchInput = QLineEdit()
+        self.searchInput.setPlaceholderText("Search movies...")
+        search_layout.addWidget(self.searchInput)
+
+        searchButton = QPushButton("Search")
+        search_layout.addWidget(searchButton)
+
+        searchButton.clicked.connect(self.searchMovies)
+        self.searchInput.returnPressed.connect(self.searchMovies)
+
+        self.genreCombo = QComboBox()
+        self.genreCombo.addItem("All Genres")
+        search_layout.addWidget(self.genreCombo)
 
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
@@ -62,6 +76,7 @@ class ManageMoviesView(QMainWindow):
         delButton = QPushButton("Delete Movie")
         delButton.clicked.connect(self.deleteMovie)
 
+        
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
         side_layout.addWidget(editButton)
@@ -208,3 +223,15 @@ class ManageMoviesView(QMainWindow):
         
         self.service.deleteMovie(movie.id)
         self.loadMovies()
+
+    def searchMovies(self):
+        searchText =  self.searchInput.text()
+        movies = self.service.searchMovies(searchText, "All Genres")
+
+        self.movieTable.setRowCount(len(movies))
+
+        for row, movie in enumerate(movies):
+            self.movieTable.setItem(row, 0, QTableWidgetItem(movie.title))
+            self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
+            self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
+            self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
