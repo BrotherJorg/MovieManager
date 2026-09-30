@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QLabel,
     QFormLayout,
+    QComboBox
 )
 
 from PyQt6.QtCore import Qt
@@ -48,6 +49,9 @@ class ManageMoviesView(QMainWindow):
 
         right_layout = QVBoxLayout()
         main_layout.addLayout(right_layout)
+
+        search_layout = QHBoxLayout()
+        main_layout.addLayout(search_layout)
 
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
