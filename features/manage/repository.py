@@ -74,3 +74,31 @@ class MovieRepository:
         (movie_id,))
 
         self.database.connection.commit()
+
+
+    def searchMoves(self, searchText, genre):
+
+        conditions = []
+        values = []
+
+        if searchText:
+            conditions.append("title LIKE ?")
+            values.append(f"%{searchText}%")
+
+        if genre != "All genres":
+            conditions.append("genre = ?")
+            values.append(genre)
+
+        query = ("""
+            SELECT id, title, genre, year, rating
+            FROM Movies
+        """)
+
+
+        if conditions:
+            query += " WHERE " + " AND ".join(conditions) 
+
+        cursor = self.database.connection.cursor()
+        cursor.execute(query, values)
+
+        rows = cursor.fetchall()
