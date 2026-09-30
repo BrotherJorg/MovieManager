@@ -37,13 +37,40 @@ class MovieRepository:
          
         for row in rows:
             movie = Movie(
-                    row[1],
-                    row[2],
-                    row[3],
-                    row[4]
+                row[1],
+                row[2],
+                row[3],
+                row[4],
+                row[0]
                 )
 
             movies.append(movie)
             
         return movies
-        
+    
+    def updateMovie(self, movie):
+        cursor = self.database.connection.cursor()
+        cursor.execute("""
+            UPDATE Movies
+            SET title = ?, genre = ?, year = ?, rating = ?
+            where id = ?
+        """, (
+            movie.title,
+            movie.genre,
+            movie.year,
+            movie.rating,
+            movie.id
+            )
+        )   
+        self.database.connection.commit()
+
+    def deleteMovie(self, movie_id):
+        cursor = self.database.connection.cursor()
+
+        cursor.execute("""
+            DELETE FROM Movies
+            WHERE id = ?
+        """, 
+        (movie_id,))
+
+        self.database.connection.commit()

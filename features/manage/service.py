@@ -8,3 +8,9 @@ class MovieService:
 
     def getMovie(self):
         return self.repository.getAll()
+
+    def updateMovie(self, movie):
+        self.repository.updateMovie(movie)
+
+    def deleteMovie(self, movie_id):
+        self.repository.deleteMovie(movie_id)

@@ -188,6 +188,8 @@ class ManageMoviesView(QMainWindow):
         movie.year = int(self.yearInput.text())
         movie.rating = float(self.ratingInput.text())
 
+        self.service.updateMovie(movie)
+
         dialog.accept()
         self.loadMovies()
 
@@ -200,5 +202,5 @@ class ManageMoviesView(QMainWindow):
         movies = self.service.getMovie()
         movie = movies[row]
         
-        movies.remove(movie)
+        self.service.deleteMovie(movie.id)
         self.loadMovies()
