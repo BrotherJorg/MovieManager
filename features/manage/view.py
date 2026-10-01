@@ -240,9 +240,8 @@ class ManageMoviesView(QMainWindow):
             self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
 
     def loadGenres(self):
-        print("loadGenres called")
         genres = self.service.getGenres()
-        print(genres)
+    
         self.genreCombo.clear()
         self.genreCombo.addItem("All Genres")
         self.genreCombo.addItems(genres)
