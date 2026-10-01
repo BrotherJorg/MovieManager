@@ -1,7 +1,5 @@
-from pickletools import read_uint1
 from .model import Movie
 from db.database import Database
-import sqlite3
 
 class MovieRepository:
 
@@ -16,7 +14,7 @@ class MovieRepository:
             movie.genre,
             movie.year,
             movie.rating
-)
+            )
 
         cursor.execute("""
             INSERT INTO Movies (title, genre, year, rating)
@@ -25,16 +23,17 @@ class MovieRepository:
 
         self.database.connection.commit()
 
+
     def getAll(self):
         cursor = self.database.connection.cursor()
 
         cursor.execute("""
-        SELECT id, title, genre, year, rating, status FROM Movies
+            SELECT id, title, genre, year, rating, status 
+            FROM Movies
         """)
 
         rows = cursor.fetchall()
         movies = []
-         
          
         for row in rows:
             movie = Movie(
@@ -50,21 +49,24 @@ class MovieRepository:
             
         return movies
     
+
     def updateMovie(self, movie):
         cursor = self.database.connection.cursor()
+
         cursor.execute("""
             UPDATE Movies
             SET title = ?, genre = ?, year = ?, rating = ?
-            where id = ?
+            WHERE id = ?
         """, (
             movie.title,
             movie.genre,
             movie.year, 
             movie.rating,
             movie.id
-            )
-        )   
+        ))   
+
         self.database.connection.commit()
+
 
     def deleteMovie(self, movie_id):
         cursor = self.database.connection.cursor()
@@ -72,56 +74,58 @@ class MovieRepository:
         cursor.execute("""
             DELETE FROM Movies
             WHERE id = ?
-        """, 
-        (movie_id,))
+        """, (movie_id,))
 
         self.database.connection.commit()
 
 
     def searchMovies(self, searchText, genre, status):
+            print("SEARCH:", searchText)
+            print("GENRE:", genre)
+            print("STATUS:", status)
+        
+            conditions = []
+            values = []
 
-        conditions = []
-        values = []
+            if searchText:
+                conditions.append("title LIKE ?")
+                values.append(f"%{searchText}%")
 
-        if searchText:
-            conditions.append("title LIKE ?")
-            values.append(f"%{searchText}%")
+            if genre != "All Genres":
+                conditions.append("genre = ?")
+                values.append(genre)
 
-        if genre != "All Genres":
-            conditions.append("genre = ?")
-            values.append(genre)
+            if status != "All status":
+                conditions.append("status = ?")
+                values.append(status)
 
-        if status != "All Status":
-            conditions.append("status = ?")
-            values.append(status)
+            query = ("""
+                SELECT id, title, genre, year, rating, status
+                FROM Movies
+            """)
 
-        query = ("""
-            SELECT id, title, genre, year, rating, status
-            FROM Movies
-        """)
+            if conditions:
+                query += " WHERE " + " AND ".join(conditions)
 
+            cursor = self.database.connection.cursor()
+            cursor.execute(query, values)
 
-        if conditions:
-            query += " WHERE " + " AND ".join(conditions) 
+            rows = cursor.fetchall()
 
-        cursor = self.database.connection.cursor()
-        cursor.execute(query, values)
+            movies = []
+            for row in rows:
+                movie = Movie(
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[0],
+                    row[5]
+                )
+                movies.append(movie)
 
-        rows = cursor.fetchall()
+            return movies
 
-        movies = []
-        for row in rows:
-            movie = Movie(
-                row[1],
-                row[2],
-                row[3],
-                row[4],
-                row[0],
-                row[5]
-            )
-            movies.append(movie)
-
-        return movies
 
     def getGenres(self):
         cursor = self.database.connection.cursor()
@@ -140,6 +144,7 @@ class MovieRepository:
             genres.append(row[0])
 
         return genres
+
 
     def updateStatus(self, movie_id, status):
         cursor = self.database.connection.cursor()

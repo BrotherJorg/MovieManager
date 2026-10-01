@@ -15,7 +15,7 @@ class MovieService:
     def deleteMovie(self, movie_id):
         self.repository.deleteMovie(movie_id)
 
-    def searchMovies(self,searchText, genre, status):
+    def searchMovies(self, searchText, genre, status):
         return self.repository.searchMovies(searchText, genre, status)
 
     def getGenres(self):

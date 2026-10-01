@@ -1,13 +1,13 @@
 from features.manage_movies.repository import MovieRepository
 
-class watchStatusService:
+class WatchStatusService:
     def __init__(self, repository):
         self.repository = repository
 
     def updateStatus(self, movie_id, status):
             validStatuses = [
                 "Unwatched",
-                "Wathcing",
+                "Watching",
                 "Watched"
             ]
 

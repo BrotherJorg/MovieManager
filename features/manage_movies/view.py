@@ -1,4 +1,3 @@
-from PyQt6.QtCore import QDataStream
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -12,8 +11,8 @@ from PyQt6.QtWidgets import (
     QLabel,
     QFormLayout,
     QComboBox
+    
 )
-
 from PyQt6.QtCore import Qt
 from .model import Movie
 from features.movie_status.view import WatchStatusView
@@ -28,7 +27,7 @@ class ManageMoviesView(QMainWindow):
         self.watchStatusService = watchStatusService
 
         self.setWindowTitle("MovieOWL")
-        self.resize(800, 600)
+        self.resize(1280 , 720  )
 
         self.setup_ui()
         self.loadGenres()
@@ -43,13 +42,13 @@ class ManageMoviesView(QMainWindow):
         main_layout = QHBoxLayout()
         central_widget.setLayout(main_layout)
 
-        sideBarwidget = QWidget()
-        sideBarwidget.setFixedWidth(180)
+        sidebarwidget = QWidget()
+        sidebarwidget.setFixedWidth(180)
 
         side_layout = QVBoxLayout()
-        sideBarwidget.setLayout(side_layout)
+        sidebarwidget.setLayout(side_layout)
 
-        main_layout.addWidget(sideBarwidget)
+        main_layout.addWidget(sidebarwidget)
 
         right_layout = QVBoxLayout()
         main_layout.addLayout(right_layout)
@@ -79,17 +78,21 @@ class ManageMoviesView(QMainWindow):
             "Watching",
             "Watched"
         ])
+
         self.statusCombo.currentIndexChanged.connect(self.searchMovies)
         search_layout.addWidget(self.statusCombo)
 
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
+
         viewButton = QPushButton("View Details")
         viewButton.clicked.connect(self.viewDetails)
+
         editButton = QPushButton("Edit Movie")
         editButton.clicked.connect(self.editMovie)
-        delButton = QPushButton("Delete Movie")
-        delButton.clicked.connect(self.deleteMovie)
+
+        deleteButton = QPushButton("Delete Movie")
+        deleteButton.clicked.connect(self.deleteMovie)
 
         statusButton = QPushButton("Watch Status")
         statusButton.clicked.connect(self.changeWatchStatus)
@@ -98,21 +101,24 @@ class ManageMoviesView(QMainWindow):
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
         side_layout.addWidget(editButton)
-        side_layout.addWidget(delButton)
+        side_layout.addWidget(deleteButton)
         side_layout.addWidget(statusButton)
+
+        # GUI TABLE 
 
         self.movieTable = QTableWidget()
         self.movieTable.setColumnCount(5)
 
         self.movieTable.setHorizontalHeaderLabels([
-            "title",
-            "genre",
-            "year",
-            "rating",
-            "status"
+            "Title",
+            "Genre",
+            "Year",
+            "Rating",
+            "Status"
         ])
-        right_layout.addWidget(self.movieTable)
+        self.movieTable.horizontalHeader().setStretchLastSection(True)
 
+        right_layout.addWidget(self.movieTable)
 
 
     def loadMovies(self):
@@ -120,11 +126,16 @@ class ManageMoviesView(QMainWindow):
         self.movieTable.setRowCount(len(movies))
 
         for row, movie in enumerate(movies):
-            self.movieTable.setItem(row, 0, QTableWidgetItem(movie.title))
+            titleItem =QTableWidgetItem(movie.title)
+            titleItem.setData(Qt.ItemDataRole.UserRole, movie.id)
+
+            self.movieTable.setItem(row, 0, titleItem)
             self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
             self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
             self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
             self.movieTable.setItem(row, 4, QTableWidgetItem(movie.status))
+
+
     def addMovie(self):
        dialog = QDialog(self)
        dialog.setWindowTitle("Add Movie")
@@ -150,6 +161,7 @@ class ManageMoviesView(QMainWindow):
        canButton.clicked.connect(dialog.reject)
        dialog.exec()
 
+
     def saveMovie(self):
         title = self.titleInput.text()
         genre = self.genreInput.text()
@@ -169,8 +181,15 @@ class ManageMoviesView(QMainWindow):
         if row == -1:
             return
 
+       
+        movie_id = self.movieTable.item(row, 0).data(Qt.ItemDataRole.UserRole)
+
         movies = self.service.getMovie()
-        movie = movies[row]
+
+        movie = next(
+            movie for movie in movies
+            if movie.id == movie_id
+            )       
 
         dialog = QDialog(self)
         dialog.setWindowTitle("Movie Details")
@@ -185,14 +204,22 @@ class ManageMoviesView(QMainWindow):
 
         dialog.exec()
 
+
     def editMovie(self):
         row = self.movieTable.currentRow()
 
         if row == -1:
             return
+        
+
+        movie_id = self.movieTable.item(row, 0).data(Qt.ItemDataRole.UserRole)
 
         movies = self.service.getMovie()
-        movie = movies[row]
+        
+        movie = next (
+            movie for movie in movies 
+            if movie.id == movie_id
+        )
 
         dialog = QDialog(self)
         dialog.setWindowTitle("Edit Movie")
@@ -230,7 +257,8 @@ class ManageMoviesView(QMainWindow):
         self.service.updateMovie(movie)
 
         dialog.accept()
-        self.loadMovies()
+        self.searchMoviesMovies()
+
 
     def deleteMovie(self):
         row = self.movieTable.currentRow()
@@ -238,11 +266,12 @@ class ManageMoviesView(QMainWindow):
         if row == -1:
          return
 
-        movies = self.service.getMovie()
-        movie = movies[row]
+        movie_id = self.movieTable.item( row, 0).data(Qt.ItemDataRole.UserRole)
         
-        self.service.deleteMovie(movie.id)
-        self.loadMovies()
+        self.service.deleteMovie(movie_id)
+
+        self.searchMoviesMovies()
+
 
     def searchMovies(self):
         searchText =  self.searchInput.text()
@@ -254,26 +283,42 @@ class ManageMoviesView(QMainWindow):
         self.movieTable.setRowCount(len(movies))
 
         for row, movie in enumerate(movies):
-            self.movieTable.setItem(row, 0, QTableWidgetItem(movie.title))
+            titleItem = QTableWidgetItem(movie.title)
+            titleItem.setData(Qt.ItemDataRole.UserRole, movie.id)
+            self.movieTable.setItem(row, 0, titleItem)
+
             self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
             self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
             self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
             self.movieTable.setItem(row, 4, QTableWidgetItem(movie.status))
 
+
     def loadGenres(self):
         genres = self.service.getGenres()
-    
+        
+        self.genreCombo.blockSignals(True)
+
         self.genreCombo.clear()
         self.genreCombo.addItem("All Genres")
         self.genreCombo.addItems(genres)
+
+        self.genreCombo.blockSignals(False)
+
 
     def changeWatchStatus(self):
         row = self.movieTable.currentRow()
 
         if row == -1:
             return
+       
+        movie_id = self.movieTable.item(row, 0).data(Qt.ItemDataRole.UserRole)
+        
         movies = self.service.getMovie()
-        movie = movies[row] 
+
+        movie = next (
+            movie for movie in movies
+            if movie.id == movie_id
+        )
 
         dialog = WatchStatusView(
             self.watchStatusService,
@@ -282,4 +327,4 @@ class ManageMoviesView(QMainWindow):
         )
 
         if dialog.exec():
-            self.loadMovies()
+            self.searchMovies()
