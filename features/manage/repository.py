@@ -116,3 +116,21 @@ class MovieRepository:
             movies.append(movie)
 
         return movies
+
+    def getGenres(self):
+        cursor = self.database.connection.cursor()
+
+        cursor.execute("""
+            SELECT DISTINCT genre
+            FROM Movies
+            ORDER BY genre
+        """)
+
+        rows = cursor.fetchall()
+
+        genres = []
+
+        for row in rows:
+            genres.append(row[0])
+
+        return genres

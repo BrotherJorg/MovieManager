@@ -17,3 +17,6 @@ class MovieService:
 
     def searchMovies(self,searchText, genre):
         return self.repository.searchMovies(searchText, genre)
+
+    def getGenres(self):
+        return self.repository.getGenres()

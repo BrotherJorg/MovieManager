@@ -30,6 +30,7 @@ class ManageMoviesView(QMainWindow):
 
         self.setup_ui()
         self.loadMovies()
+        self.loadGenres()
 
     def setup_ui(self):
 
@@ -226,7 +227,9 @@ class ManageMoviesView(QMainWindow):
 
     def searchMovies(self):
         searchText =  self.searchInput.text()
-        movies = self.service.searchMovies(searchText, "All Genres")
+        genre = self.genreCombo.currentText()
+
+        movies = self.service.searchMovies(searchText, genre)
 
         self.movieTable.setRowCount(len(movies))
 
@@ -235,3 +238,11 @@ class ManageMoviesView(QMainWindow):
             self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
             self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
             self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
+
+    def loadGenres(self):
+        print("loadGenres called")
+        genres = self.service.getGenres()
+        print(genres)
+        self.genreCombo.clear()
+        self.genreCombo.addItem("All Genres")
+        self.genreCombo.addItems(genres)
