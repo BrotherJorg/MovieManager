@@ -16,21 +16,24 @@ from PyQt6.QtWidgets import (
 
 from PyQt6.QtCore import Qt
 from .model import Movie
+from features.movie_status.view import WatchStatusView
 
 
 class ManageMoviesView(QMainWindow):
 
-    def __init__(self, service):
+    def __init__(self, service, watchStatusService):
         super().__init__()
 
         self.service = service
+        self.watchStatusService = watchStatusService
 
         self.setWindowTitle("MovieOWL")
         self.resize(800, 600)
 
         self.setup_ui()
-        self.loadMovies()
         self.loadGenres()
+        self.loadMovies()
+        
 
     def setup_ui(self):
 
@@ -66,7 +69,18 @@ class ManageMoviesView(QMainWindow):
 
         self.genreCombo = QComboBox()
         self.genreCombo.addItem("All Genres")
+        self.genreCombo.currentIndexChanged.connect(self.searchMovies)
         search_layout.addWidget(self.genreCombo)
+
+        self.statusCombo = QComboBox()
+        self.statusCombo.addItems([
+            "All status",
+            "Unwatched",
+            "Watching",
+            "Watched"
+        ])
+        self.statusCombo.currentIndexChanged.connect(self.searchMovies)
+        search_layout.addWidget(self.statusCombo)
 
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
@@ -77,20 +91,25 @@ class ManageMoviesView(QMainWindow):
         delButton = QPushButton("Delete Movie")
         delButton.clicked.connect(self.deleteMovie)
 
+        statusButton = QPushButton("Watch Status")
+        statusButton.clicked.connect(self.changeWatchStatus)
+
         
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
         side_layout.addWidget(editButton)
         side_layout.addWidget(delButton)
+        side_layout.addWidget(statusButton)
 
         self.movieTable = QTableWidget()
-        self.movieTable.setColumnCount(4)
+        self.movieTable.setColumnCount(5)
 
         self.movieTable.setHorizontalHeaderLabels([
             "title",
             "genre",
             "year",
-            "rating"
+            "rating",
+            "status"
         ])
         right_layout.addWidget(self.movieTable)
 
@@ -105,7 +124,7 @@ class ManageMoviesView(QMainWindow):
             self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
             self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
             self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
-
+            self.movieTable.setItem(row, 4, QTableWidgetItem(movie.status))
     def addMovie(self):
        dialog = QDialog(self)
        dialog.setWindowTitle("Add Movie")
@@ -228,8 +247,9 @@ class ManageMoviesView(QMainWindow):
     def searchMovies(self):
         searchText =  self.searchInput.text()
         genre = self.genreCombo.currentText()
+        status = self.statusCombo.currentText()
 
-        movies = self.service.searchMovies(searchText, genre)
+        movies = self.service.searchMovies(searchText, genre, status)
 
         self.movieTable.setRowCount(len(movies))
 
@@ -238,6 +258,7 @@ class ManageMoviesView(QMainWindow):
             self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
             self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
             self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
+            self.movieTable.setItem(row, 4, QTableWidgetItem(movie.status))
 
     def loadGenres(self):
         genres = self.service.getGenres()
@@ -245,3 +266,20 @@ class ManageMoviesView(QMainWindow):
         self.genreCombo.clear()
         self.genreCombo.addItem("All Genres")
         self.genreCombo.addItems(genres)
+
+    def changeWatchStatus(self):
+        row = self.movieTable.currentRow()
+
+        if row == -1:
+            return
+        movies = self.service.getMovie()
+        movie = movies[row] 
+
+        dialog = WatchStatusView(
+            self.watchStatusService,
+            movie,
+            self
+        )
+
+        if dialog.exec():
+            self.loadMovies()

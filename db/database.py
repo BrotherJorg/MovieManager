@@ -14,7 +14,8 @@ class Database():
             title TEXT NOT NULL,
             genre TEXT NOT NULL,
             year INTEGER NOT NULL,
-            rating REAL NOT NULL
+            rating REAL NOT NULL,
+            status TEXT NOT NULL DEFAULT 'Unwatched'
             )
         """)
         self.connection.commit()
