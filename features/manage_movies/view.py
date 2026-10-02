@@ -16,15 +16,17 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt
 from .model import Movie
 from features.movie_status.view import WatchStatusView
+from features.review_notes.view import ReviewNotesView
 
 
 class ManageMoviesView(QMainWindow):
 
-    def __init__(self, service, watchStatusService):
+    def __init__(self, service, watchStatusService,  reviewNotesService):
         super().__init__()
 
         self.service = service
         self.watchStatusService = watchStatusService
+        self.reviewNotesService = reviewNotesService
 
         self.setWindowTitle("MovieOWL")
         self.resize(1280 , 720  )
@@ -55,6 +57,8 @@ class ManageMoviesView(QMainWindow):
 
         search_layout = QHBoxLayout()
         right_layout.addLayout(search_layout)
+
+        # MAIN UI BUTTONS
 
         self.searchInput = QLineEdit()
         self.searchInput.setPlaceholderText("Search movies...")
@@ -97,12 +101,16 @@ class ManageMoviesView(QMainWindow):
         statusButton = QPushButton("Watch Status")
         statusButton.clicked.connect(self.changeWatchStatus)
 
+        self.reviewNotesButton = QPushButton("Reviews & Notes")
+        self.reviewNotesButton.clicked.connect(self.openReviewNotes)    
         
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
         side_layout.addWidget(editButton)
         side_layout.addWidget(deleteButton)
         side_layout.addWidget(statusButton)
+        side_layout.addWidget(self.reviewNotesButton)
+
 
         # GUI TABLE 
 
@@ -328,3 +336,30 @@ class ManageMoviesView(QMainWindow):
 
         if dialog.exec():
             self.searchMovies()
+
+    def openReviewNotes(self):
+
+        row = self.movieTable.currentRow()
+
+        if row < 0:
+            return
+
+        movie_id = self.movieTable.item(
+            row, 0
+        ).data(Qt.ItemDataRole.UserRole)
+
+        movies = self.service.getMovie()
+
+        movie = next(
+            movie for movie in movies
+            if movie.id == movie_id
+        )
+
+        dialog = ReviewNotesView(
+            movie,
+            self.reviewNotesService
+        )
+
+        dialog.exec()
+
+        self.searchMovies()

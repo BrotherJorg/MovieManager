@@ -18,4 +18,19 @@ class Database():
             status TEXT NOT NULL DEFAULT 'Unwatched'
             )
         """)
+
+        cursor.execute("PRAGMA table_info(movies)")
+        columns = [column[1] for column in cursor.fetchall()]
+
+        if "review" not in columns:
+            cursor.execute("""
+            ALTER TABLE movies
+            ADD COLUMN review TEXT
+        """)
+
+        if "notes" not in columns:
+            cursor.execute("""
+            ALTER TABLE movies
+            ADD COLUMN notes TEXT
+        """)
         self.connection.commit()
