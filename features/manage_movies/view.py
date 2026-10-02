@@ -17,16 +17,17 @@ from PyQt6.QtCore import Qt
 from .model import Movie
 from features.movie_status.view import WatchStatusView
 from features.review_notes.view import ReviewNotesView
-
+from features.dashboard.view import DashboardView
 
 class ManageMoviesView(QMainWindow):
 
-    def __init__(self, service, watchStatusService,  reviewNotesService):
+    def __init__(self, service, watchStatusService,  reviewNotesService, dashboardService):
         super().__init__()
 
         self.service = service
         self.watchStatusService = watchStatusService
         self.reviewNotesService = reviewNotesService
+        self.dashboardService = dashboardService
 
         self.setWindowTitle("MovieOWL")
         self.resize(1280 , 720  )
@@ -86,6 +87,8 @@ class ManageMoviesView(QMainWindow):
         self.statusCombo.currentIndexChanged.connect(self.searchMovies)
         search_layout.addWidget(self.statusCombo)
 
+        # sidebar buttons 
+
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
 
@@ -103,6 +106,11 @@ class ManageMoviesView(QMainWindow):
 
         self.reviewNotesButton = QPushButton("Reviews & Notes")
         self.reviewNotesButton.clicked.connect(self.openReviewNotes)    
+
+        self.reviewNotesButton = QPushButton("Reviews & Notes")
+
+        self.dashboardButton = QPushButton("Dashboard")
+        self.dashboardButton.clicked.connect(self.openDashboard)
         
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
@@ -110,6 +118,7 @@ class ManageMoviesView(QMainWindow):
         side_layout.addWidget(deleteButton)
         side_layout.addWidget(statusButton)
         side_layout.addWidget(self.reviewNotesButton)
+        side_layout.addWidget(self.dashboardButton)
 
 
         # GUI TABLE 
@@ -363,3 +372,11 @@ class ManageMoviesView(QMainWindow):
         dialog.exec()
 
         self.searchMovies()
+
+    def openDashboard(self):
+
+        self.dashboardView = DashboardView(
+            self.dashboardService
+        )
+
+        self.dashboardView.show()

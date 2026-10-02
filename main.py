@@ -11,16 +11,23 @@ from features.review_notes.service import ReviewNotesService
 
 from features.review_notes.repository import ReviewNotesRepository
 
+from features.dashboard.repository import DashboardRepository
+from features.dashboard.service import DashboardService
+
 repository = MovieRepository()
 service = MovieService(repository)  
+
 watchStatusService = WatchStatusService(repository)
 
 reviewNotesRepository = ReviewNotesRepository()
 reviewNotesService = ReviewNotesService(reviewNotesRepository)
 
+dashboardRepository = DashboardRepository()
+dashboardService = DashboardService(dashboardRepository)
+
 app = QApplication(sys.argv)
 
-window = ManageMoviesView(service, watchStatusService, reviewNotesService)
+window = ManageMoviesView(service, watchStatusService, reviewNotesService, dashboardService)
 window.show()
 
 sys.exit(app.exec()) 
