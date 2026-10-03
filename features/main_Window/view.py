@@ -9,6 +9,8 @@ from PyQt6.QtWidgets import (
 
 
 class MainWindow(QMainWindow):
+    EXPANDED_WIDTH = 180
+    COLLAPSED_WIDTH = 56
 
     def __init__(
         self,
@@ -32,20 +34,42 @@ class MainWindow(QMainWindow):
     def setup_ui(self):
 
         centralWidget = QWidget()
-        mainLayout = QHBoxLayout()
+        mainLayout = QHBoxLayout(centralWidget)
+        mainLayout.setContentsMargins(0, 0, 0, 0)
+        mainLayout.setSpacing(0)
+
+
+        # Sidebar should collapse
+        self.sidebarWidget = QWidget()
+        self.sidebarWidget.setFixedWidth(self.EXPANDED_WIDTH)
 
         sidebar = QVBoxLayout()
+        sidebar.setSpacing(10)
+        sidebar.setContentsMargins(10, 10, 10, 10)
+        self.sidebarWidget.setLayout(sidebar)
 
-        manageButton = QPushButton("Manage Movies")
-        dashboardButton = QPushButton("Dashboard")
-        moviePickerButton = QPushButton("Movie Picker")
-        recommendationsButton = QPushButton("Recommendations")
 
-        sidebar.addWidget(manageButton)
-        sidebar.addWidget(dashboardButton)
-        sidebar.addWidget(moviePickerButton)
-        sidebar.addWidget(recommendationsButton)
+
+        self.manageButton = QPushButton("Manage Movies")
+        self.dashboardButton = QPushButton("Dashboard")
+        self.moviePickerButton = QPushButton("Movie Picker")
+        self.recommendationsButton = QPushButton("Recommendations")
+
+        sidebar.addWidget(self.dashboardButton)
+       
+        sidebar.addWidget(self.manageButton)
+       
+        sidebar.addWidget(self.moviePickerButton)
+        
+        sidebar.addWidget(self.recommendationsButton)
+
         sidebar.addStretch()
+        self.collapseButton = QPushButton("Collapse")
+        self.collapseButton.clicked.connect(self.toggleSidebar)
+
+        sidebar.addWidget(self.collapseButton)
+        sidebar.addStretch()
+       
 
         self.stack = QStackedWidget()
 
@@ -54,33 +78,58 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.moviePickerView)
         self.stack.addWidget(self.recommendationsView)
 
-        mainLayout.addLayout(sidebar)
-        mainLayout.addWidget(self.stack)
+        mainLayout.addWidget(self.sidebarWidget)
+        mainLayout.addWidget(self.stack, 1)
 
         centralWidget.setLayout(mainLayout)
 
         self.setCentralWidget(centralWidget)
 
-        manageButton.clicked.connect(
+        self.manageButton.clicked.connect(
             lambda: self.stack.setCurrentWidget(
                 self.manageMoviesView
             )
         )
 
-        dashboardButton.clicked.connect(
+        self.dashboardButton.clicked.connect(
             lambda: self.stack.setCurrentWidget(
                 self.dashboardView
             )
         )
 
-        moviePickerButton.clicked.connect(
+        self.moviePickerButton.clicked.connect(
             lambda: self.stack.setCurrentWidget(
                 self.moviePickerView
             )
         )
 
-        recommendationsButton.clicked.connect(
+        self.recommendationsButton.clicked.connect(
             lambda: self.stack.setCurrentWidget(
                 self.recommendationsView
             )
         )
+
+        self.stack.setCurrentWidget(self.dashboardView)
+    
+
+    def toggleSidebar(self):
+
+        if self.sidebarWidget.width() == self.EXPANDED_WIDTH:
+
+            self.sidebarWidget.setFixedWidth( self.COLLAPSED_WIDTH)
+
+            self.manageButton.setText("M")
+            self.dashboardButton.setText("D")
+            self.moviePickerButton.setText("P")
+            self.recommendationsButton.setText("R")
+            self.collapseButton.setText(">>")
+
+        else:
+
+            self.sidebarWidget.setFixedWidth(self.EXPANDED_WIDTH)
+
+            self.manageButton.setText("Manage Movies")
+            self.dashboardButton.setText("Dashboard")
+            self.moviePickerButton.setText("Movie Picker")
+            self.recommendationsButton.setText("Recommendations")
+            self.collapseButton.setText("Collapse")

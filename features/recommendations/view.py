@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QLabel
 )
+from PyQt6.QtCore import Qt
 
 
 class RecommendationsView(QWidget):
@@ -13,45 +14,70 @@ class RecommendationsView(QWidget):
         self.service = service
 
         self.setWindowTitle("Recommendations")
-        self.resize(500, 400)
+        self.resize(600, 600)
 
         self.setup_ui()
         self.loadRecommendations()
 
     def setup_ui(self):
 
-        layout = QVBoxLayout()
+       
+        mainLayout = QVBoxLayout()
+        self.setLayout(mainLayout)
 
-        titleLabel = QLabel("Movie Recommendations")
+        title = QLabel("Recommendations")
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        mainLayout.addWidget(title)
 
-        self.recommendationsLabel = QLabel()
+        description = QLabel("Movies you may want to watch")
+        description.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        mainLayout.addWidget(description)
 
-        layout.addWidget(titleLabel)
-        layout.addWidget(self.recommendationsLabel)
+        self.recommendationsLayout = QVBoxLayout()
+        mainLayout.addLayout(self.recommendationsLayout, 1)
 
-        self.setLayout(layout)
 
     def loadRecommendations(self):
 
         recommendations = self.service.getRecommendations()
 
         if not recommendations:
-            self.recommendationsLabel.setText(
-                "No recommendations available."
+            self.recommendationsLayout.addWidget(
+                QLabel("No recommendations available.")
             )
             return
-
-        text = ""
 
         for recommendation in recommendations:
 
             movie = recommendation.movie
 
-            text += (
-                f"{movie[1]} ({movie[3]})\n"
-                f"Genre: {movie[2]}\n"
-                f"Rating: {movie[4]}\n"
-                f"{recommendation.reason}\n\n"
+            card = QWidget()
+            card.setFixedWidth(500)
+
+            cardLayout = QVBoxLayout(card)
+
+            titleLabel = QLabel(
+                movie[1]
             )
 
-        self.recommendationsLabel.setText(text)
+            detailsLabel = QLabel(
+                f"{movie[2]} • {movie[3]}"
+            )
+
+            ratingLabel = QLabel(
+                f"Rating: {movie[4]}"
+            )
+
+            reasonLabel = QLabel(
+                recommendation.reason
+            )
+
+            cardLayout.addWidget(titleLabel)
+            cardLayout.addWidget(detailsLabel)
+            cardLayout.addWidget(ratingLabel)
+            cardLayout.addWidget(reasonLabel)
+
+            self.recommendationsLayout.addWidget(
+                card,
+                alignment=Qt.AlignmentFlag.AlignHCenter
+            )
