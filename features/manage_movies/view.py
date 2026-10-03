@@ -15,23 +15,59 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from .model import Movie
-from features.movie_status.view import WatchStatusView
 from features.review_notes.view import ReviewNotesView
-from features.dashboard.view import DashboardView
-from features.movie_picker.view import MoviePickerView
-from features.recommendations.view import RecommendationsView
 
-class ManageMoviesView(QMainWindow):
+class WatchStatusView(QDialog):
 
-    def __init__(self, service, watchStatusService,  reviewNotesService, dashboardService, moviePickerService, recommendationService):
+    def __init__(self, service, movie, parent=None):
+        super().__init__(parent)
+
+        self.service = service
+        self.movie = movie
+
+        self.setWindowTitle("Watch Status")
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        layout.addWidget(QLabel(f"Movie: {movie.title}"))
+
+        self.statusCombo = QComboBox()
+        self.statusCombo.addItems([
+            "Unwatched",
+            "Watching",
+            "Watched"
+        ])
+
+        self.statusCombo.setCurrentText(movie.status)
+        layout.addWidget(self.statusCombo)
+
+        saveButton = QPushButton("Save")
+        saveButton.clicked.connect(self.saveStatus)
+
+        layout.addWidget(saveButton)
+
+    def saveStatus(self):
+
+        status = self.statusCombo.currentText()
+
+        self.service.updateStatus(
+            self.movie.id,
+            status
+        )
+
+        self.accept()
+
+
+
+
+class ManageMoviesView(QWidget):
+
+    def __init__(self, service, reviewNotesService):
         super().__init__()
 
         self.service = service
-        self.watchStatusService = watchStatusService
         self.reviewNotesService = reviewNotesService
-        self.dashboardService = dashboardService
-        self.moviePickerService = moviePickerService
-        self.recommendationService = recommendationService
 
         self.setWindowTitle("MovieOWL")
         self.resize(1280 , 720  )
@@ -43,11 +79,8 @@ class ManageMoviesView(QMainWindow):
 
     def setup_ui(self):
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-
         main_layout = QHBoxLayout()
-        central_widget.setLayout(main_layout)
+        self.setLayout(main_layout)
 
         sidebarwidget = QWidget()
         sidebarwidget.setFixedWidth(180)
@@ -111,29 +144,13 @@ class ManageMoviesView(QMainWindow):
         self.reviewNotesButton = QPushButton("Reviews & Notes")
         self.reviewNotesButton.clicked.connect(self.openReviewNotes)    
 
-        self.reviewNotesButton = QPushButton("Reviews & Notes")
-
-        self.dashboardButton = QPushButton("Dashboard")
-        self.dashboardButton.clicked.connect(self.openDashboard)
-
-        self.moviePickerButton = QPushButton("Movie Picker")
-        self.moviePickerButton.clicked.connect(self.openMoviePicker)
-        
-        self.recommendationsButton = QPushButton("Recommendations")
-        self.recommendationsButton.clicked.connect(self.openRecommendations)
-      
-
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
         side_layout.addWidget(editButton)
         side_layout.addWidget(deleteButton)
         side_layout.addWidget(statusButton)
         side_layout.addWidget(self.reviewNotesButton)
-        side_layout.addWidget(self.dashboardButton)
-        side_layout.addWidget(self.moviePickerButton)
-        side_layout.addWidget(self.recommendationsButton)
-        
-        
+    
 
         # GUI TABLE 
 
@@ -288,7 +305,7 @@ class ManageMoviesView(QMainWindow):
         self.service.updateMovie(movie)
 
         dialog.accept()
-        self.searchMoviesMovies()
+        self.searchMovies()
 
 
     def deleteMovie(self):
@@ -301,7 +318,7 @@ class ManageMoviesView(QMainWindow):
         
         self.service.deleteMovie(movie_id)
 
-        self.searchMoviesMovies()
+        self.searchMovies()
 
 
     def searchMovies(self):
@@ -352,7 +369,7 @@ class ManageMoviesView(QMainWindow):
         )
 
         dialog = WatchStatusView(
-            self.watchStatusService,
+            self.service,
             movie,
             self
         )
@@ -387,27 +404,3 @@ class ManageMoviesView(QMainWindow):
 
         self.searchMovies()
 
-    def openDashboard(self):
-
-        self.dashboardView = DashboardView(
-            self.dashboardService
-        )
-
-        self.dashboardView.show()
-
-    def openMoviePicker(self):
-
-        self.moviePickerView = MoviePickerView(
-            self.moviePickerService
-        )
-
-        self.moviePickerView.show()
-
-    
-    def openRecommendations(self):
-
-        self.recommendationsView = RecommendationsView(
-            self.recommendationService
-        )
-
-        self.recommendationsView.show()

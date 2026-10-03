@@ -1,11 +1,12 @@
 import sys
 
 from PyQt6.QtWidgets import QApplication
+from features.main_Window.view import MainWindow
 
 from features.manage_movies.repository import MovieRepository
 from features.manage_movies.service import MovieService
 from features.manage_movies.view import ManageMoviesView
-from features.movie_status.service import WatchStatusService
+
 
 from features.review_notes.service import ReviewNotesService
 
@@ -20,10 +21,12 @@ from features.movie_picker.service import MoviePickerService
 from features.recommendations.repository import RecommendationRepository
 from features.recommendations.service import RecommendationService
 
+from features.dashboard.view import DashboardView
+from features.movie_picker.view import MoviePickerView
+from features.recommendations.view import RecommendationsView
+
 repository = MovieRepository()
 service = MovieService(repository)  
-
-watchStatusService = WatchStatusService(repository)
 
 reviewNotesRepository = ReviewNotesRepository()
 reviewNotesService = ReviewNotesService(reviewNotesRepository)
@@ -40,7 +43,22 @@ recommendationService = RecommendationService(   recommendationRepository)
 
 app = QApplication(sys.argv)
 
-window = ManageMoviesView(service, watchStatusService, reviewNotesService, dashboardService, moviePickerService, recommendationService)
+manageMoviesView = ManageMoviesView(
+    service,
+    reviewNotesService
+)
+
+dashboardView = DashboardView(dashboardService)
+moviePickerView = MoviePickerView(moviePickerService)
+recommendationsView = RecommendationsView(recommendationService)
+
+window = MainWindow(
+    manageMoviesView,
+    dashboardView,
+    moviePickerView,
+    recommendationsView
+)
+
 window.show()
 
 sys.exit(app.exec()) 

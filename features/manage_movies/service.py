@@ -20,3 +20,15 @@ class MovieService:
 
     def getGenres(self):
         return self.repository.getGenres()
+
+    def updateStatus(self, movie_id, status):
+        validStatuses = [
+            "Unwatched",
+            "Watching",
+            "Watched"
+        ]
+
+        if status not in validStatuses:
+            return
+
+        self.repository.updateStatus(movie_id, status)
