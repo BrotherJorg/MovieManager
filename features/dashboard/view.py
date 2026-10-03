@@ -3,8 +3,9 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QLabel,
-    QGroupBox
+    QFrame
 )
+from PyQt6.QtCore import Qt
 
 
 class DashboardView(QWidget):
@@ -14,79 +15,129 @@ class DashboardView(QWidget):
 
         self.service = service
 
+        self.setWindowTitle("Dashboard")
+        self.resize(900, 600)
+
         self.setup_ui()
-        self.loadStats()
+        self.loadDashboard()
 
     def setup_ui(self):
 
         mainLayout = QVBoxLayout()
+        self.setLayout(mainLayout)
 
-        titleLabel = QLabel("MovieOWL Dashboard")
+        # TITLE
 
-        self.totalLabel = QLabel()
-        self.watchedLabel = QLabel()
-        self.watchingLabel = QLabel()
-        self.unwatchedLabel = QLabel()
-        self.averageRatingLabel = QLabel()
+        title = QLabel("Dashboard")
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        mainLayout.addWidget(title)
+
+        # STATISTICS
 
         statsLayout = QHBoxLayout()
 
-        totalBox = QGroupBox("Total Movies")
-        totalLayout = QVBoxLayout()
-        totalLayout.addWidget(self.totalLabel)
-        totalBox.setLayout(totalLayout)
+        moviesCard = QFrame()
+        moviesLayout = QVBoxLayout(moviesCard)
 
-        watchedBox = QGroupBox("Watched")
-        watchedLayout = QVBoxLayout()
-        watchedLayout.addWidget(self.watchedLabel)
-        watchedBox.setLayout(watchedLayout)
+        moviesTitle = QLabel("Movies")
+        self.moviesValue = QLabel("0")
+        self.moviesValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        watchingBox = QGroupBox("Watching")
-        watchingLayout = QVBoxLayout()
-        watchingLayout.addWidget(self.watchingLabel)
-        watchingBox.setLayout(watchingLayout)
+        moviesLayout.addWidget(moviesTitle)
+        moviesLayout.addWidget(self.moviesValue)
 
-        unwatchedBox = QGroupBox("Unwatched")
-        unwatchedLayout = QVBoxLayout()
-        unwatchedLayout.addWidget(self.unwatchedLabel)
-        unwatchedBox.setLayout(unwatchedLayout)
+        watchedCard = QFrame()
+        watchedLayout = QVBoxLayout(watchedCard)
 
-        statsLayout.addWidget(totalBox)
-        statsLayout.addWidget(watchedBox)
-        statsLayout.addWidget(watchingBox)
-        statsLayout.addWidget(unwatchedBox)
+        watchedTitle = QLabel("Watched")
+        self.watchedValue = QLabel("0")
+        self.watchedValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        ratingBox = QGroupBox("Average Rating")
-        ratingLayout = QVBoxLayout()
-        ratingLayout.addWidget(self.averageRatingLabel)
-        ratingBox.setLayout(ratingLayout)
+        watchedLayout.addWidget(watchedTitle)
+        watchedLayout.addWidget(self.watchedValue)
 
-        genreBox = QGroupBox("Genre Breakdown")
-        genreLayout = QVBoxLayout()
+        watchingCard = QFrame()
+        watchingLayout = QVBoxLayout(watchingCard)
+
+        watchingTitle = QLabel("Watching")
+        self.watchingValue = QLabel("0")
+        self.watchingValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        watchingLayout.addWidget(watchingTitle)
+        watchingLayout.addWidget(self.watchingValue)
+
+        statsLayout.addWidget(moviesCard)
+        statsLayout.addWidget(watchedCard)
+        statsLayout.addWidget(watchingCard)
+
+        mainLayout.addLayout(statsLayout)
+
+        # STATISTICS AREA
+
+        statisticsLayout = QHBoxLayout()
+
+        genreFrame = QFrame()
+        genreLayout = QVBoxLayout(genreFrame)
+
+        genreTitle = QLabel("Genre Statistics")
+        genreTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        genreLayout.addWidget(genreTitle)
 
         self.genreLabel = QLabel()
+        self.genreLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         genreLayout.addWidget(self.genreLabel)
 
-        genreBox.setLayout(genreLayout)
+        statusFrame = QFrame()
+        statusLayout = QVBoxLayout(statusFrame)
 
-        mainLayout.addWidget(titleLabel)
-        mainLayout.addLayout(statsLayout)
-        mainLayout.addWidget(ratingBox)
-        mainLayout.addWidget(genreBox)
+        statusTitle = QLabel("Status Statistics")
+        statusTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.setLayout(mainLayout)
+        statusLayout.addWidget(statusTitle)
 
-    def loadStats(self):
+        self.statusLabel = QLabel()
+        self.statusLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        statusLayout.addWidget(self.statusLabel)
+
+        statisticsLayout.addWidget(genreFrame)
+        statisticsLayout.addWidget(statusFrame)
+
+        mainLayout.addLayout(statisticsLayout, 1)
+
+        # AVERAGE RATING
+
+        self.averageRatingLabel = QLabel(
+            "Average Rating: 0"
+        )
+
+        self.averageRatingLabel.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        mainLayout.addWidget(self.averageRatingLabel)
+
+    def loadDashboard(self):
 
         stats = self.service.getStats()
 
-        self.totalLabel.setText(str(stats.totalMovies))
-        self.watchedLabel.setText(str(stats.watched))
-        self.watchingLabel.setText(str(stats.watching))
-        self.unwatchedLabel.setText(str(stats.unwatched))
+        self.moviesValue.setText(
+            str(stats.totalMovies)
+        )
+
+        self.watchedValue.setText(
+            str(stats.watched)
+        )
+
+        self.watchingValue.setText(
+            str(stats.watching)
+        )
 
         self.averageRatingLabel.setText(
-            f"{stats.averageRating:.2f}"
+            f"Average Rating: {stats.averageRating:.1f}"
         )
 
         genreText = ""
@@ -95,3 +146,11 @@ class DashboardView(QWidget):
             genreText += f"{genre}: {count}\n"
 
         self.genreLabel.setText(genreText)
+
+        statusText = (
+            f"Watched: {stats.watched}\n"
+            f"Watching: {stats.watching}\n"
+            f"Unwatched: {stats.unwatched}"
+        )
+
+        self.statusLabel.setText(statusText)

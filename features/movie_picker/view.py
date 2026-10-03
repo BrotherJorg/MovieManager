@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (
     QLabel,
     QPushButton
 )
+from PyQt6.QtCore import Qt
 
 
 class MoviePickerView(QWidget):
@@ -21,20 +22,38 @@ class MoviePickerView(QWidget):
     def setup_ui(self):
 
         layout = QVBoxLayout()
+        self.setLayout(layout)
 
         titleLabel = QLabel("Movie Picker")
+        titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.movieLabel = QLabel(
             "Click the button to pick a movie."
         )
+        self.movieLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.movieLabel.setMinimumHeight(150)
 
         pickButton = QPushButton("Pick a Movie")
 
-        layout.addWidget(titleLabel)
-        layout.addWidget(self.movieLabel)
-        layout.addWidget(pickButton)
+        layout.addStretch()
 
-        self.setLayout(layout)
+        layout.addWidget(titleLabel)
+
+        layout.addSpacing(15)
+
+        layout.addWidget(
+            self.movieLabel,
+            alignment=Qt.AlignmentFlag.AlignHCenter
+        )
+
+        layout.addSpacing(15)
+
+        layout.addWidget(
+            pickButton,
+            alignment=Qt.AlignmentFlag.AlignHCenter
+        )
+
+        layout.addStretch()
 
         pickButton.clicked.connect(
             self.pickMovie

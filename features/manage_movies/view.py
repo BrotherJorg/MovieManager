@@ -79,24 +79,13 @@ class ManageMoviesView(QWidget):
 
     def setup_ui(self):
 
-        main_layout = QHBoxLayout()
+        main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
-        sidebarwidget = QWidget()
-        sidebarwidget.setFixedWidth(180)
-
-        side_layout = QVBoxLayout()
-        sidebarwidget.setLayout(side_layout)
-
-        main_layout.addWidget(sidebarwidget)
-
-        right_layout = QVBoxLayout()
-        main_layout.addLayout(right_layout)
+        # MAIN UI BUTTONS
 
         search_layout = QHBoxLayout()
-        right_layout.addLayout(search_layout)
-
-        # MAIN UI BUTTONS
+        main_layout.addLayout(search_layout)
 
         self.searchInput = QLineEdit()
         self.searchInput.setPlaceholderText("Search movies...")
@@ -124,7 +113,9 @@ class ManageMoviesView(QWidget):
         self.statusCombo.currentIndexChanged.connect(self.searchMovies)
         search_layout.addWidget(self.statusCombo)
 
-        # sidebar buttons 
+        # ACTION BUTTONS
+
+        action_layout = QHBoxLayout()
 
         addButton = QPushButton("Add Movie")
         addButton.clicked.connect(self.addMovie)
@@ -142,17 +133,16 @@ class ManageMoviesView(QWidget):
         statusButton.clicked.connect(self.changeWatchStatus)
 
         self.reviewNotesButton = QPushButton("Reviews & Notes")
-        self.reviewNotesButton.clicked.connect(self.openReviewNotes)    
+        self.reviewNotesButton.clicked.connect(self.openReviewNotes)
 
-        side_layout.addWidget(addButton)
-        side_layout.addWidget(viewButton)
-        side_layout.addWidget(editButton)
-        side_layout.addWidget(deleteButton)
-        side_layout.addWidget(statusButton)
-        side_layout.addWidget(self.reviewNotesButton)
-    
+        action_layout.addWidget(addButton)
+        action_layout.addWidget(viewButton)
+        action_layout.addWidget(editButton)
+        action_layout.addWidget(deleteButton)
+        action_layout.addWidget(statusButton)
+        action_layout.addWidget(self.reviewNotesButton)
 
-        # GUI TABLE 
+        # GUI TABLE
 
         self.movieTable = QTableWidget()
         self.movieTable.setColumnCount(5)
@@ -164,9 +154,11 @@ class ManageMoviesView(QWidget):
             "Rating",
             "Status"
         ])
+
         self.movieTable.horizontalHeader().setStretchLastSection(True)
 
-        right_layout.addWidget(self.movieTable)
+        main_layout.addWidget(self.movieTable)
+        main_layout.addLayout(action_layout)
 
 
     def loadMovies(self):
