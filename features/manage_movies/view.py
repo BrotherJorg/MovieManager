@@ -18,16 +18,20 @@ from .model import Movie
 from features.movie_status.view import WatchStatusView
 from features.review_notes.view import ReviewNotesView
 from features.dashboard.view import DashboardView
+from features.movie_picker.view import MoviePickerView
+from features.recommendations.view import RecommendationsView
 
 class ManageMoviesView(QMainWindow):
 
-    def __init__(self, service, watchStatusService,  reviewNotesService, dashboardService):
+    def __init__(self, service, watchStatusService,  reviewNotesService, dashboardService, moviePickerService, recommendationService):
         super().__init__()
 
         self.service = service
         self.watchStatusService = watchStatusService
         self.reviewNotesService = reviewNotesService
         self.dashboardService = dashboardService
+        self.moviePickerService = moviePickerService
+        self.recommendationService = recommendationService
 
         self.setWindowTitle("MovieOWL")
         self.resize(1280 , 720  )
@@ -111,7 +115,14 @@ class ManageMoviesView(QMainWindow):
 
         self.dashboardButton = QPushButton("Dashboard")
         self.dashboardButton.clicked.connect(self.openDashboard)
+
+        self.moviePickerButton = QPushButton("Movie Picker")
+        self.moviePickerButton.clicked.connect(self.openMoviePicker)
         
+        self.recommendationsButton = QPushButton("Recommendations")
+        self.recommendationsButton.clicked.connect(self.openRecommendations)
+      
+
         side_layout.addWidget(addButton)
         side_layout.addWidget(viewButton)
         side_layout.addWidget(editButton)
@@ -119,7 +130,10 @@ class ManageMoviesView(QMainWindow):
         side_layout.addWidget(statusButton)
         side_layout.addWidget(self.reviewNotesButton)
         side_layout.addWidget(self.dashboardButton)
-
+        side_layout.addWidget(self.moviePickerButton)
+        side_layout.addWidget(self.recommendationsButton)
+        
+        
 
         # GUI TABLE 
 
@@ -380,3 +394,20 @@ class ManageMoviesView(QMainWindow):
         )
 
         self.dashboardView.show()
+
+    def openMoviePicker(self):
+
+        self.moviePickerView = MoviePickerView(
+            self.moviePickerService
+        )
+
+        self.moviePickerView.show()
+
+    
+    def openRecommendations(self):
+
+        self.recommendationsView = RecommendationsView(
+            self.recommendationService
+        )
+
+        self.recommendationsView.show()

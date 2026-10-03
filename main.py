@@ -14,6 +14,12 @@ from features.review_notes.repository import ReviewNotesRepository
 from features.dashboard.repository import DashboardRepository
 from features.dashboard.service import DashboardService
 
+from features.movie_picker.repository import MoviePickerRepository
+from features.movie_picker.service import MoviePickerService
+
+from features.recommendations.repository import RecommendationRepository
+from features.recommendations.service import RecommendationService
+
 repository = MovieRepository()
 service = MovieService(repository)  
 
@@ -25,9 +31,16 @@ reviewNotesService = ReviewNotesService(reviewNotesRepository)
 dashboardRepository = DashboardRepository()
 dashboardService = DashboardService(dashboardRepository)
 
+
+moviePickerRepository = MoviePickerRepository()
+moviePickerService = MoviePickerService(moviePickerRepository)
+
+recommendationRepository = RecommendationRepository()
+recommendationService = RecommendationService(   recommendationRepository)
+
 app = QApplication(sys.argv)
 
-window = ManageMoviesView(service, watchStatusService, reviewNotesService, dashboardService)
+window = ManageMoviesView(service, watchStatusService, reviewNotesService, dashboardService, moviePickerService, recommendationService)
 window.show()
 
 sys.exit(app.exec()) 
