@@ -71,9 +71,10 @@ It also provides a rating and review system as well as a recommendation system, 
      .\.venv\Scripts\Activate.ps1
   
   4. Install the required dependency:
+
       pip install PyQt6
   
-  5. Run the application:
+  7. Run the application:
      
       python main.py
 
