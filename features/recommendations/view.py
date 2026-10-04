@@ -52,25 +52,22 @@ class RecommendationsView(QWidget):
             movie = recommendation.movie
 
             card = QWidget()
+            card.setObjectName("recommendationCard")
             card.setFixedWidth(500)
 
             cardLayout = QVBoxLayout(card)
 
-            titleLabel = QLabel(
-                movie[1]
-            )
+            titleLabel = QLabel(  movie[1])
+            titleLabel.setObjectName("recommendationTitle")
 
-            detailsLabel = QLabel(
-                f"{movie[2]} • {movie[3]}"
-            )
+            detailsLabel = QLabel( f"{movie[2]} • {movie[3]}"      )
+            detailsLabel.setObjectName("recommendationDetails")
 
-            ratingLabel = QLabel(
-                f"Rating: {movie[4]}"
-            )
+            ratingLabel = QLabel(    f"Rating: {movie[4]}"          )
+            ratingLabel.setObjectName("recommendationRating")
 
-            reasonLabel = QLabel(
-                recommendation.reason
-            )
+            reasonLabel = QLabel(  recommendation.reason  )
+            reasonLabel.setObjectName("recommendationReason")
 
             cardLayout.addWidget(titleLabel)
             cardLayout.addWidget(detailsLabel)

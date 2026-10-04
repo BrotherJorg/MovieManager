@@ -1,0 +1,291 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+QWidget {
+    background-color: #1E1E2E;
+    color: #CDD6F4;
+    font-size: 14px;
+}
+
+QMainWindow {
+    background-color: #181825;
+}
+
+QLabel {
+    background-color: transparent;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+#sidebarWidget {
+    background-color: #181825;
+    border-right: 1px solid #45475A;
+}
+
+#sidebarWidget QPushButton {
+    background-color: transparent;
+    color: #A6ADC8;
+
+    border: none;
+    border-left: 2px solid transparent;
+
+    padding: 10px 12px;
+    text-align: left;
+}
+
+#sidebarWidget QPushButton:hover {
+    background-color: #24243A;
+    color: #CDD6F4;
+    border-left: 2px solid #89B4FA;
+}
+
+#sidebarWidget QPushButton:pressed {
+    background-color: #30304A;
+    color: #F5E0E0;
+    border-left: 2px solid #F2B5A7;
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+#dashboardView {
+    background-color: #1E1E2E;
+}
+
+QLabel#dashboardTitle {
+    color: #F5E0E0;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 8px;
+}
+
+#dashboardCard {
+    background-color: #24243A;
+    color: #CDD6F4;
+
+    border: 1px solid #45475A;
+    border-radius: 2px;
+
+    padding: 10px;
+}
+
+QLabel#dashboardValue {
+    color: #A6D189;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 8px;
+}
+
+#dashboardSection {
+    background-color: #20202F;
+
+    border: 1px solid #45475A;
+    border-radius: 2px;
+
+    padding: 14px;
+}
+
+QLabel#dashboardSectionTitle {
+    color: #89B4FA;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #45475A;
+}
+
+
+/* =========================================================
+   MOVIE PICKER
+   ========================================================= */
+
+#moviePickerTitle {
+    color: #CBA6F7;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#moviePickerResult {
+    background-color: #24243A;
+    color: #CDD6F4;
+
+    border: 1px solid #45475A;
+    border-radius: 2px;
+
+    padding: 20px;
+}
+
+#moviePickerButton {
+    background-color: #24243A;
+    color: #CDD6F4;
+
+    border: 1px solid #81C8BE;
+    border-radius: 2px;
+
+    padding: 9px 18px;
+}
+
+#moviePickerButton:hover {
+    background-color: #30304A;
+    border: 1px solid #CBA6F7;
+}
+
+#moviePickerButton:pressed {
+    background-color: #3A3A50;
+    border: 1px solid #F2B5A7;
+}
+
+
+/* =========================================================
+   RECOMMENDATIONS
+   ========================================================= */
+
+#recommendationCard {
+    background-color: #24243A;
+
+    border: 1px solid #45475A;
+    border-left: 2px solid #CBA6F7;
+    border-radius: 2px;
+
+    padding: 10px;
+}
+
+#recommendationCard:hover {
+    background-color: #2A2A40;
+    border-left: 2px solid #89B4FA;
+}
+
+#recommendationTitle {
+    color: #CDD6F4;
+
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#recommendationDetails {
+    color: #A6ADC8;
+}
+
+#recommendationRating {
+    color: #E5C890;
+    font-weight: bold;
+}
+
+#recommendationReason {
+    color: #A6D189;
+    padding-top: 5px;
+}
+
+
+/* =========================================================
+   GENERAL BUTTONS
+   ========================================================= */
+
+QPushButton {
+    background-color: #24243A;
+    color: #CDD6F4;
+
+    border: 1px solid #45475A;
+    border-radius: 2px;
+
+    padding: 8px 14px;
+}
+
+QPushButton:hover {
+    background-color: #30304A;
+    color: #F5E0E0;
+
+    border: 1px solid #89B4FA;
+}
+
+QPushButton:pressed {
+    background-color: #3A3A50;
+    border: 1px solid #F2B5A7;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+QLineEdit,
+QComboBox {
+    background-color: #181825;
+    color: #CDD6F4;
+
+    border: 1px solid #45475A;
+    border-radius: 2px;
+
+    padding: 7px;
+}
+
+QLineEdit:focus,
+QComboBox:focus {
+    border: 1px solid #89B4FA;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+QTableWidget {
+    background-color: #181825;
+    color: #CDD6F4;
+
+    border: 1px solid #45475A;
+    gridline-color: #30304A;
+}
+
+QTableWidget::item {
+    padding: 6px;
+}
+
+QTableWidget::item:selected {
+    background-color: #30304A;
+    color: #F5E0E0;
+}
+
+QHeaderView::section {
+    background-color: #24243A;
+    color: #89B4FA;
+
+    border: none;
+    border-bottom: 1px solid #45475A;
+
+    padding: 7px;
+}
+
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+QScrollBar:vertical {
+    background: #181825;
+    width: 8px;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background: #45475A;
+    min-height: 30px;
+    border-radius: 2px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #89B4FA;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+}

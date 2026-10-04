@@ -41,6 +41,7 @@ class MainWindow(QMainWindow):
 
         # Sidebar should collapse
         self.sidebarWidget = QWidget()
+        self.sidebarWidget.setObjectName("sidebarWidget")
         self.sidebarWidget.setFixedWidth(self.EXPANDED_WIDTH)
 
         sidebar = QVBoxLayout()

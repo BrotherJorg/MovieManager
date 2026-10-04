@@ -26,14 +26,17 @@ class MoviePickerView(QWidget):
 
         titleLabel = QLabel("Movie Picker")
         titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        titleLabel.setObjectName("moviePickerTitle")
 
         self.movieLabel = QLabel(
             "Click the button to pick a movie."
         )
         self.movieLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.movieLabel.setMinimumHeight(150)
+        self.movieLabel.setObjectName("moviePickerResult")
 
         pickButton = QPushButton("Pick a Movie")
+        pickButton.setObjectName("moviePickerButton")
 
         layout.addStretch()
 

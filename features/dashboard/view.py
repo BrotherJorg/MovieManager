@@ -17,6 +17,7 @@ class DashboardView(QWidget):
 
         self.setWindowTitle("Dashboard")
         self.resize(900, 600)
+        self.setObjectName("dashboardView")
 
         self.setup_ui()
         self.loadDashboard()
@@ -29,6 +30,7 @@ class DashboardView(QWidget):
         # TITLE
 
         title = QLabel("Dashboard")
+        title.setObjectName("dashboardTitle")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         mainLayout.addWidget(title)
@@ -38,30 +40,36 @@ class DashboardView(QWidget):
         statsLayout = QHBoxLayout()
 
         moviesCard = QFrame()
+        moviesCard.setObjectName("dashboardCard")
         moviesLayout = QVBoxLayout(moviesCard)
 
         moviesTitle = QLabel("Movies")
         self.moviesValue = QLabel("0")
+        self.moviesValue.setObjectName("dashboardValue")
         self.moviesValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         moviesLayout.addWidget(moviesTitle)
         moviesLayout.addWidget(self.moviesValue)
 
         watchedCard = QFrame()
+        watchedCard.setObjectName("dashboardCard")
         watchedLayout = QVBoxLayout(watchedCard)
 
         watchedTitle = QLabel("Watched")
         self.watchedValue = QLabel("0")
+        self.watchedValue.setObjectName("dashboardValue")
         self.watchedValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         watchedLayout.addWidget(watchedTitle)
         watchedLayout.addWidget(self.watchedValue)
 
         watchingCard = QFrame()
+        watchingCard.setObjectName("dashboardCard")
         watchingLayout = QVBoxLayout(watchingCard)
 
         watchingTitle = QLabel("Watching")
         self.watchingValue = QLabel("0")
+        self.watchingValue.setObjectName("dashboardValue")
         self.watchingValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         watchingLayout.addWidget(watchingTitle)
@@ -78,9 +86,11 @@ class DashboardView(QWidget):
         statisticsLayout = QHBoxLayout()
 
         genreFrame = QFrame()
+        genreFrame.setObjectName("dashboardSection")
         genreLayout = QVBoxLayout(genreFrame)
 
         genreTitle = QLabel("Genre Statistics")
+        genreTitle.setObjectName("dashboardSectionTitle")
         genreTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         genreLayout.addWidget(genreTitle)
@@ -91,9 +101,11 @@ class DashboardView(QWidget):
         genreLayout.addWidget(self.genreLabel)
 
         statusFrame = QFrame()
+        statusFrame.setObjectName("dashboardSection")
         statusLayout = QVBoxLayout(statusFrame)
 
         statusTitle = QLabel("Status Statistics")
+        statusTitle.setObjectName("dashboardSectionTitle")
         statusTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         statusLayout.addWidget(statusTitle)
