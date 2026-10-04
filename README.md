@@ -25,24 +25,24 @@ It also provides a rating and review system as well as a recommendation system, 
 ## Features
 
 ## Technologies used
-  ####Programming Language
-  -Python 3.14
+  #### Programming Language
+  - Python 3.14
   
-  ####GUI Framework / Library
-  -PyQt6
-  -Qt Style Sheets (QSS) for application styling
+  #### GUI Framework / Library
+  - PyQt6
+  - Qt Style Sheets (QSS) for application styling
   
-  ####Database
-  -SQLite
-  ####Libraries
-  -Python Standard Library
-
-  -sqlite3 for SQLite database integration
+  #### Database
+  - SQLite
+    
+  #### Libraries
+  - Python Standard Library
+  - sqlite3 for SQLite database integration
   
-  ####Other Tools and Resources
-  -Git for version control
-  -GitHub for source-code management and repository hosting
-  -VSCodium for development
-  -Manrope font for the application interface
-  -SVG icons for the graphical interface
+  #### Other Tools and Resources
+  - Git for version control
+  - GitHub for source-code management and repository hosting
+  - VSCodium for development
+  - Manrope font for the application interface
+  - SVG icons for the graphical interface
   
