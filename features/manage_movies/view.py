@@ -10,7 +10,10 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QLabel,
     QFormLayout,
-    QComboBox
+    QComboBox,
+    QMessageBox,
+    QAbstractItemView,
+    QHeaderView
     
 )
 from PyQt6.QtCore import Qt
@@ -82,7 +85,7 @@ class ManageMoviesView(QWidget):
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
-        # MAIN UI BUTTONS
+        # Buttons
 
         search_layout = QHBoxLayout()
         main_layout.addLayout(search_layout)
@@ -96,6 +99,7 @@ class ManageMoviesView(QWidget):
 
         searchButton.clicked.connect(self.searchMovies)
         self.searchInput.returnPressed.connect(self.searchMovies)
+        self.searchInput.textChanged.connect(self.searchMovies)
 
         self.genreCombo = QComboBox()
         self.genreCombo.addItem("All Genres")
@@ -113,7 +117,6 @@ class ManageMoviesView(QWidget):
         self.statusCombo.currentIndexChanged.connect(self.searchMovies)
         search_layout.addWidget(self.statusCombo)
 
-        # ACTION BUTTONS
 
         action_layout = QHBoxLayout()
 
@@ -154,11 +157,30 @@ class ManageMoviesView(QWidget):
             "Rating",
             "Status"
         ])
+        self.movieTable.setEditTriggers( QAbstractItemView.EditTrigger.NoEditTriggers)
+       
+        header = self.movieTable.horizontalHeader()
+        
 
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Interactive
+        )
+        self.movieTable.setColumnWidth(0, 320)  
+        self.movieTable.setColumnWidth(1, 220)  
+        self.movieTable.setColumnWidth(2, 120)  
+        self.movieTable.setColumnWidth(3, 140)  
+        self.movieTable.setColumnWidth(4, 220)  
+
+        self.movieTable.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.movieTable.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)  
+        self.movieTable.setSelectionMode(  QAbstractItemView.SelectionMode.SingleSelection)
+
+        self.movieTable.setSortingEnabled(True)
+    
         self.movieTable.horizontalHeader().setStretchLastSection(True)
 
         main_layout.addWidget(self.movieTable)
         main_layout.addLayout(action_layout)
+
 
 
     def loadMovies(self):
@@ -197,12 +219,12 @@ class ManageMoviesView(QWidget):
        canButton = QPushButton("Cancel")
        formLayout.addRow(addButton, canButton)
 
-       addButton.clicked.connect(self.saveMovie)
+       addButton.clicked.connect(lambda: self.saveMovie(dialog))
        canButton.clicked.connect(dialog.reject)
        dialog.exec()
 
 
-    def saveMovie(self):
+    def saveMovie(self, dialog):
         title = self.titleInput.text()
         genre = self.genreInput.text()
         year = int(self.yearInput.text())
@@ -213,6 +235,7 @@ class ManageMoviesView(QWidget):
         self.service.addMovie(movie)
 
         self.loadMovies()
+        dialog.accept()
 
 
     def viewDetails(self):
@@ -242,7 +265,10 @@ class ManageMoviesView(QWidget):
         layout.addRow("Year:", QLabel(str(movie.year)))
         layout.addRow("Rating:", QLabel(str(movie.rating)))
 
-        dialog.exec()
+
+        self.service.addMovie(movie)
+        self.loadMovies()
+        dialog.accept()
 
 
     def editMovie(self):
@@ -301,16 +327,35 @@ class ManageMoviesView(QWidget):
 
 
     def deleteMovie(self):
+        
         row = self.movieTable.currentRow()
 
         if row == -1:
-         return
+            return
 
-        movie_id = self.movieTable.item( row, 0).data(Qt.ItemDataRole.UserRole)
-        
+        movie_id = self.movieTable.item(
+            row, 0
+        ).data(Qt.ItemDataRole.UserRole)
+
+        movie_title = self.movieTable.item(
+            row, 0
+        ).text()
+
+        confirmation = QMessageBox.question(
+            self,
+            "Delete Movie",
+            f'Delete "{movie_title}"?',
+            QMessageBox.StandardButton.Yes
+            | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+        )
+
+        if confirmation != QMessageBox.StandardButton.Yes:
+            return
+
         self.service.deleteMovie(movie_id)
 
-        self.searchMovies()
+        self.loadMovies()
 
 
     def searchMovies(self):

@@ -26,10 +26,12 @@ class RecommendationsView(QWidget):
         self.setLayout(mainLayout)
 
         title = QLabel("Recommendations")
+        title.setObjectName("recommendationPageTitle")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         mainLayout.addWidget(title)
 
         description = QLabel("Movies you may want to watch")
+        description.setObjectName("recommendationPageDescription")
         description.setAlignment(Qt.AlignmentFlag.AlignCenter)
         mainLayout.addWidget(description)
 

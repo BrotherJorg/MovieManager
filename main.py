@@ -1,5 +1,4 @@
 import sys
-from PyQt6.QtGui import QFontDatabase
 from PyQt6.QtGui import QFont, QFontDatabase
 
 from PyQt6.QtWidgets import QApplication
@@ -46,15 +45,15 @@ recommendationService = RecommendationService(   recommendationRepository)
 app = QApplication(sys.argv)
 
 fontId = QFontDatabase.addApplicationFont(
-    "assets/fonts/protest-riot-latin-400-normal.ttf"
+    "assets/fonts/static/manrope-latin-400-normal.ttf"
 )
-
-with open("styles/main.qss", "r") as file:
-    app.setStyleSheet(file.read())
 
 if fontId != -1:
     fontFamily = QFontDatabase.applicationFontFamilies(fontId)[0]
     app.setFont(QFont(fontFamily, 10))
+
+with open("styles/main.qss", "r") as file:
+    app.setStyleSheet(file.read())
 
 manageMoviesView = ManageMoviesView(
     service,

@@ -25,9 +25,9 @@ class DashboardView(QWidget):
     def setup_ui(self):
 
         mainLayout = QVBoxLayout()
+        mainLayout.setContentsMargins(20, 20, 20, 20)
+        mainLayout.setSpacing(12)
         self.setLayout(mainLayout)
-
-        # TITLE
 
         title = QLabel("Dashboard")
         title.setObjectName("dashboardTitle")
@@ -35,9 +35,8 @@ class DashboardView(QWidget):
 
         mainLayout.addWidget(title)
 
-        # STATISTICS
-
         statsLayout = QHBoxLayout()
+        statsLayout.setSpacing(12)
 
         moviesCard = QFrame()
         moviesCard.setObjectName("dashboardCard")
@@ -81,13 +80,16 @@ class DashboardView(QWidget):
 
         mainLayout.addLayout(statsLayout)
 
-        # STATISTICS AREA
+
 
         statisticsLayout = QHBoxLayout()
+        statisticsLayout.setSpacing(12)
 
         genreFrame = QFrame()
         genreFrame.setObjectName("dashboardSection")
+        genreFrame.setMaximumHeight(180)
         genreLayout = QVBoxLayout(genreFrame)
+        
 
         genreTitle = QLabel("Genre Statistics")
         genreTitle.setObjectName("dashboardSectionTitle")
@@ -102,6 +104,7 @@ class DashboardView(QWidget):
 
         statusFrame = QFrame()
         statusFrame.setObjectName("dashboardSection")
+        statusFrame.setMaximumHeight(180)
         statusLayout = QVBoxLayout(statusFrame)
 
         statusTitle = QLabel("Status Statistics")
@@ -118,9 +121,8 @@ class DashboardView(QWidget):
         statisticsLayout.addWidget(genreFrame)
         statisticsLayout.addWidget(statusFrame)
 
-        mainLayout.addLayout(statisticsLayout, 1)
+        mainLayout.addLayout(statisticsLayout)
 
-        # AVERAGE RATING
 
         self.averageRatingLabel = QLabel(
             "Average Rating: 0"

@@ -1,8 +1,10 @@
 from PyQt6.QtWidgets import (
     QWidget,
     QVBoxLayout,
+    QHBoxLayout,
     QLabel,
-    QPushButton
+    QPushButton,
+    QFrame
 )
 from PyQt6.QtCore import Qt
 
@@ -14,26 +16,65 @@ class MoviePickerView(QWidget):
 
         self.service = service
 
-        self.setWindowTitle("Movie Picker")
-        self.resize(500, 350)
+        self.setObjectName("moviePickerView")
 
         self.setup_ui()
 
     def setup_ui(self):
 
         layout = QVBoxLayout()
+        layout.setContentsMargins(30, 30, 30, 30)
+        layout.setSpacing(12)
         self.setLayout(layout)
 
         titleLabel = QLabel("Movie Picker")
         titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         titleLabel.setObjectName("moviePickerTitle")
 
-        self.movieLabel = QLabel(
-            "Click the button to pick a movie."
+                
+        resultCard = QFrame()
+        resultCard.setObjectName("moviePickerCard")
+
+        resultLayout = QHBoxLayout(resultCard)
+
+        self.posterLabel = QLabel()
+        self.posterLabel.setObjectName("moviePickerPoster")
+        self.posterLabel.setFixedSize(120, 180)
+
+        infoLayout = QVBoxLayout()
+
+        self.movieTitleLabel = QLabel("No movie selected")
+        self.movieTitleLabel.setObjectName("moviePickerMovieTitle")
+
+        descriptionLabel = QLabel(
+            "Randomly select a movie from your collection"
         )
-        self.movieLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.movieLabel.setMinimumHeight(150)
-        self.movieLabel.setObjectName("moviePickerResult")
+        descriptionLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        descriptionLabel.setObjectName("moviePickerDescription")
+
+        self.movieDetailsLabel = QLabel()
+        self.movieDetailsLabel.setObjectName("moviePickerDetails")
+
+        self.movieRatingLabel = QLabel()
+        self.movieRatingLabel.setObjectName("moviePickerRating")
+
+        self.movieStatusLabel = QLabel()
+        self.movieStatusLabel.setObjectName("moviePickerStatus")
+
+        infoLayout.addWidget(self.movieTitleLabel)
+        layout.addWidget(descriptionLabel)
+        infoLayout.addWidget(self.movieDetailsLabel)
+        infoLayout.addSpacing(8)
+        infoLayout.addWidget(self.movieRatingLabel)
+        infoLayout.addWidget(self.movieStatusLabel)
+        infoLayout.addStretch()
+
+        resultLayout.addWidget(self.posterLabel)
+        resultLayout.addLayout(infoLayout)
+
+
+
+
 
         pickButton = QPushButton("Pick a Movie")
         pickButton.setObjectName("moviePickerButton")
@@ -45,7 +86,7 @@ class MoviePickerView(QWidget):
         layout.addSpacing(15)
 
         layout.addWidget(
-            self.movieLabel,
+            resultCard,
             alignment=Qt.AlignmentFlag.AlignHCenter
         )
 
@@ -67,9 +108,11 @@ class MoviePickerView(QWidget):
         movie = self.service.getRandomMovie()
 
         if movie is None:
-            self.movieLabel.setText(
-                "No movies available."
-            )
+            self.movieTitleLabel.setText("No movies available.")
+            self.movieDetailsLabel.setText("")
+            self.movieRatingLabel.setText("")
+            self.movieStatusLabel.setText("")
+            self.posterLabel.setText("No Poster")
             return
 
         movie_id = movie[0]
@@ -79,9 +122,18 @@ class MoviePickerView(QWidget):
         rating = movie[4]
         status = movie[5]
 
-        self.movieLabel.setText(
-            f"{title} ({year})\n"
-            f"Genre: {genre}\n"
-            f"Rating: {rating}\n"
+        self.posterLabel.setText("POSTER")
+
+        self.movieTitleLabel.setText(title)
+
+        self.movieDetailsLabel.setText(
+            f"{genre} • {year}"
+        )
+
+        self.movieRatingLabel.setText(
+            f"Rating: {rating}"
+        )
+
+        self.movieStatusLabel.setText(
             f"Status: {status}"
         )
