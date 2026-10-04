@@ -56,6 +56,7 @@ It also provides a rating and review system as well as a recommendation system, 
   - PyQt6
     
   #### Installation
+  
   1. Clone the repository:
   git clone <repository-url>
   cd MovieOwl
@@ -65,14 +66,14 @@ It also provides a rating and review system as well as a recommendation system, 
   
   3. Activate the virtual environment.
 
-  in Windows PowerShell:
+     in Windows PowerShell:
 
-  .\.venv\Scripts\Activate.ps1
+     .\.venv\Scripts\Activate.ps1
   
   4. Install the required dependency:
   pip install PyQt6
   
-  5, Run the application:
+  5. Run the application:
   python main.py
 
 
