@@ -77,5 +77,7 @@ It also provides a rating and review system as well as a recommendation system, 
      
       python main.py
 
+ ## How to use the application
+
 
   
