@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import (
     QWidget,
     QVBoxLayout,
-    QHBoxLayout,
     QLabel,
     QPushButton,
     QFrame
@@ -44,13 +43,7 @@ class MoviePickerView(QWidget):
         resultCard = QFrame()
         resultCard.setObjectName("moviePickerCard")
 
-        resultLayout = QHBoxLayout(resultCard)
-
-        self.posterLabel = QLabel()
-        self.posterLabel.setObjectName("moviePickerPoster")
-        self.posterLabel.setFixedSize(120, 180)
-
-        infoLayout = QVBoxLayout()
+        infoLayout = QVBoxLayout(resultCard)
 
         self.movieTitleLabel = QLabel("No movie selected")
         self.movieTitleLabel.setObjectName("moviePickerMovieTitle")
@@ -71,9 +64,6 @@ class MoviePickerView(QWidget):
         infoLayout.addWidget(self.movieStatusLabel)
         infoLayout.addStretch()
 
-        resultLayout.addWidget(self.posterLabel)
-        resultLayout.addLayout(infoLayout)
-
         # Pick button
 
         pickButton = QPushButton("Pick a Movie")
@@ -81,7 +71,7 @@ class MoviePickerView(QWidget):
 
         # Main layout
 
-        layout.addStretch()
+      
 
         layout.addWidget(titleLabel)
 
@@ -101,7 +91,7 @@ class MoviePickerView(QWidget):
             alignment=Qt.AlignmentFlag.AlignHCenter
         )
 
-        layout.addStretch()
+    
 
         pickButton.clicked.connect(
             self.pickMovie
@@ -116,17 +106,13 @@ class MoviePickerView(QWidget):
             self.movieDetailsLabel.setText("")
             self.movieRatingLabel.setText("")
             self.movieStatusLabel.setText("")
-            self.posterLabel.setText("No Poster")
             return
 
-        movie_id = movie[0]
         title = movie[1]
         genre = movie[2]
         year = movie[3]
         rating = movie[4]
         status = movie[5]
-
-        self.posterLabel.setText("POSTER")
 
         self.movieTitleLabel.setText(title)
 

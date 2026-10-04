@@ -44,6 +44,8 @@ class DashboardView(QWidget):
         moviesLayout = QVBoxLayout(moviesCard)
 
         moviesTitle = QLabel("Movies")
+        moviesTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.moviesValue = QLabel("0")
         self.moviesValue.setObjectName("dashboardValue")
         self.moviesValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -56,6 +58,8 @@ class DashboardView(QWidget):
         watchedLayout = QVBoxLayout(watchedCard)
 
         watchedTitle = QLabel("Watched")
+        watchedTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.watchedValue = QLabel("0")
         self.watchedValue.setObjectName("dashboardValue")
         self.watchedValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -68,6 +72,8 @@ class DashboardView(QWidget):
         watchingLayout = QVBoxLayout(watchingCard)
 
         watchingTitle = QLabel("Watching")
+        watchingTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.watchingValue = QLabel("0")
         self.watchingValue.setObjectName("dashboardValue")
         self.watchingValue.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -86,7 +92,7 @@ class DashboardView(QWidget):
 
         genreFrame = QFrame()
         genreFrame.setObjectName("dashboardSection")
-        genreFrame.setFixedHeight(220)
+        genreFrame.setFixedHeight(250)
 
         genreLayout = QVBoxLayout(genreFrame)
         genreLayout.setContentsMargins(12, 12, 12, 12)
@@ -132,7 +138,7 @@ class DashboardView(QWidget):
 
         statusFrame = QFrame()
         statusFrame.setObjectName("dashboardSection")
-        statusFrame.setFixedHeight(220)
+        statusFrame.setFixedHeight(250)
 
         statusLayout = QVBoxLayout(statusFrame)
         statusLayout.setContentsMargins(12, 12, 12, 12)
@@ -159,15 +165,39 @@ class DashboardView(QWidget):
 
         mainLayout.addLayout(statisticsLayout)
 
-        self.averageRatingLabel = QLabel(
-            "Average Rating: 0"
+        averageRatingCard = QFrame()
+        averageRatingCard.setObjectName("dashboardCard")
+
+        averageRatingLayout = QVBoxLayout(averageRatingCard)
+
+        averageRatingTitle = QLabel("Average Rating")
+        averageRatingTitle.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
         )
 
+        self.averageRatingLabel = QLabel("0.0")
+        self.averageRatingLabel.setObjectName("dashboardValue")
         self.averageRatingLabel.setAlignment(
             Qt.AlignmentFlag.AlignCenter
         )
 
-        mainLayout.addWidget(self.averageRatingLabel)
+        averageRatingDescription = QLabel(
+            "Average rating across your movie collection"
+        )
+
+        averageRatingDescription.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        averageRatingDescription.setWordWrap(True)
+
+        averageRatingLayout.addWidget(averageRatingTitle)
+        averageRatingLayout.addWidget(self.averageRatingLabel)
+        averageRatingLayout.addWidget(
+            averageRatingDescription
+        )
+
+        mainLayout.addWidget(averageRatingCard)
 
     def loadDashboard(self):
 
@@ -186,7 +216,7 @@ class DashboardView(QWidget):
         )
 
         self.averageRatingLabel.setText(
-            f"Average Rating: {stats.averageRating:.1f}"
+            f"{stats.averageRating:.1f}"
         )
 
         genreText = ""

@@ -83,9 +83,10 @@ class ManageMoviesView(QWidget):
 
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
-
         titleLabel = QLabel("Manage Movies")
         titleLabel.setObjectName("manageMoviesTitle")
+        titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         main_layout.addWidget(titleLabel)
 
         search_layout = QHBoxLayout()

@@ -217,7 +217,7 @@ QLabel#dashboardSectionTitle {
     font-size: 34px;
     font-weight: 800;
 
-    padding: 8px 14px;
+     padding: 2px 14px 8px 14px;
 
     border-bottom: 4px solid #D88932;
 }
@@ -244,7 +244,7 @@ QLabel#dashboardSectionTitle {
     border-bottom: 5px solid #403545;
     border-radius: 10px;
 
-    padding: 15px;
+    padding: 25px;
 }
 
 
@@ -723,3 +723,227 @@ QToolTip {
 
     padding: 6px;
 }
+
+
+/* =========================================================
+   COLLECTIONS
+   ========================================================= */
+
+#collectionsView {
+    background-color: #F6D7A7;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTIONS TITLE
+   --------------------------------------------------------- */
+
+QLabel#collectionsTitle {
+    color: #403545;
+
+    font-size: 34px;
+    font-weight: 800;
+
+    padding: 8px 14px;
+
+    border-bottom: 4px solid #D88932;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION LIST
+   --------------------------------------------------------- */
+
+#collectionList {
+    background-color: #FFF8E8;
+
+    color: #403545;
+
+    border: 2px solid #403545;
+    border-left: 6px solid #B76578;
+    border-radius: 10px;
+
+    padding: 6px;
+}
+
+#collectionList::item {
+    background-color: #FFF8E8;
+
+    color: #403545;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #DDCCB7;
+}
+
+#collectionList::item:hover {
+    background-color: #FBEFD9;
+
+    color: #403545;
+}
+
+#collectionList::item:selected {
+    background-color: #403545;
+
+    color: #FFF8E8;
+}
+
+
+/* ---------------------------------------------------------
+   CURRENT COLLECTION TITLE
+   --------------------------------------------------------- */
+
+QLabel#collectionTitle {
+    color: #B76578;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    padding: 8px;
+
+    border-bottom: 3px solid #D88932;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION MOVIE LIST
+   --------------------------------------------------------- */
+
+#collectionMovieList {
+    background-color: #FFF8E8;
+
+    color: #403545;
+
+    border: 2px solid #403545;
+    border-left: 6px solid #2F6F73;
+    border-radius: 10px;
+
+    padding: 6px;
+}
+
+#collectionMovieList::item {
+    background-color: #FFF8E8;
+
+    color: #403545;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #DDCCB7;
+}
+
+#collectionMovieList::item:hover {
+    background-color: #FBEFD9;
+
+    color: #403545;
+}
+
+#collectionMovieList::item:selected {
+    background-color: #403545;
+
+    color: #FFF8E8;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION BUTTONS
+   --------------------------------------------------------- */
+
+#collectionsCreateButton {
+    background-color: #D88932;
+
+    color: #FFF8E8;
+
+    border: 2px solid #403545;
+    border-bottom: 4px solid #403545;
+    border-radius: 6px;
+
+    padding: 8px 14px;
+
+    font-weight: 800;
+}
+
+#collectionsCreateButton:hover {
+    background-color: #E9A957;
+
+    color: #403545;
+
+    border: 2px solid #403545;
+    border-bottom: 4px solid #403545;
+}
+
+#collectionsCreateButton:pressed {
+    background-color: #B96F25;
+
+    border: 2px solid #403545;
+    border-bottom: 2px solid #403545;
+}
+
+
+#collectionsDeleteButton {
+    background-color: #B76578;
+
+    color: #FFF8E8;
+
+    border: 2px solid #403545;
+    border-bottom: 4px solid #403545;
+    border-radius: 6px;
+
+    padding: 8px 14px;
+
+    font-weight: 800;
+}
+
+#collectionsDeleteButton:hover {
+    background-color: #D88932;
+
+    color: #FFF8E8;
+
+    border: 2px solid #403545;
+    border-bottom: 4px solid #403545;
+}
+
+#collectionsDeleteButton:pressed {
+    background-color: #965466;
+
+    border: 2px solid #403545;
+    border-bottom: 2px solid #403545;
+}
+
+
+/* ---------------------------------------------------------
+   COLLECTION MOVIE CONTROLS
+   --------------------------------------------------------- */
+
+#collectionsView #addMovieButton,
+#collectionsView #removeMovieButton {
+    background-color: #D88932;
+
+    color: #FFF8E8;
+
+    border: 2px solid #403545;
+    border-bottom: 4px solid #403545;
+    border-radius: 6px;
+
+    padding: 8px 14px;
+
+    font-weight: 800;
+}
+
+#collectionsView #addMovieButton:hover,
+#collectionsView #removeMovieButton:hover {
+    background-color: #E9A957;
+
+    color: #403545;
+
+    border: 2px solid #403545;
+    border-bottom: 4px solid #403545;
+}
+
+#collectionsView #addMovieButton:pressed,
+#collectionsView #removeMovieButton:pressed {
+    background-color: #B96F25;
+
+    border: 2px solid #403545;
+    border-bottom: 2px solid #403545;
+}
+

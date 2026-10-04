@@ -29,7 +29,8 @@ class MainWindow(QMainWindow):
         manageMoviesView,
         dashboardView,
         moviePickerView,
-        recommendationsView
+        recommendationsView,
+        collectionsView
     ):
         super().__init__()
 
@@ -37,6 +38,7 @@ class MainWindow(QMainWindow):
         self.dashboardView = dashboardView
         self.moviePickerView = moviePickerView
         self.recommendationsView = recommendationsView
+        self.collectionsView = collectionsView
 
         self.setWindowTitle("MovieOWL")
         self.resize(1000, 700)
@@ -77,9 +79,8 @@ class MainWindow(QMainWindow):
         self.manageButton = QPushButton("Manage Movies")
         self.dashboardButton = QPushButton("Dashboard")
         self.moviePickerButton = QPushButton("Movie Picker")
-        self.recommendationsButton = QPushButton(
-            "Recommendations"
-        )
+        self.recommendationsButton = QPushButton( "Recommendations"  )
+        self.collectionsButton = QPushButton(   "Collections")
 
         self.dashboardButton.setIcon(
             QIcon(str(icon_dir / "dashboard.svg"))
@@ -97,10 +98,17 @@ class MainWindow(QMainWindow):
             QIcon(str(icon_dir / "recommendation.svg"))
         )
 
+
+        self.collectionsButton.setIcon(
+    QIcon(str(icon_dir / "collections.svg"))
+)
+
+
         sidebar.addWidget(self.dashboardButton)
         sidebar.addWidget(self.manageButton)
         sidebar.addWidget(self.moviePickerButton)
         sidebar.addWidget(self.recommendationsButton)
+        sidebar.addWidget(self.collectionsButton)
 
         sidebar.addStretch()
 
@@ -123,6 +131,7 @@ class MainWindow(QMainWindow):
             self.manageButton,
             self.moviePickerButton,
             self.recommendationsButton,
+            self.collectionsButton,
             self.collapseButton
         ]:
             button.setIconSize(
@@ -139,38 +148,24 @@ class MainWindow(QMainWindow):
 
         self.stack = QStackedWidget()
 
-        self.stack.addWidget(
-            self.manageMoviesView
-        )
+        self.stack.addWidget(   self.manageMoviesView      )
 
-        self.stack.addWidget(
-            self.dashboardView
-        )
+        self.stack.addWidget(   self.dashboardView )
 
-        self.stack.addWidget(
-            self.moviePickerView
-        )
+        self.stack.addWidget( self.moviePickerView )
 
-        self.stack.addWidget(
-            self.recommendationsView
-        )
+        self.stack.addWidget(  self.recommendationsView )
 
-        mainLayout.addWidget(
-            self.sidebarWidget
-        )
+        self.stack.addWidget(   self.collectionsView)
 
-        mainLayout.addWidget(
-            self.stack,
-            1
-        )
+        mainLayout.addWidget(  self.sidebarWidget )
 
-        centralWidget.setLayout(
-            mainLayout
-        )
+        mainLayout.addWidget(   self.stack,  1   )
 
-        self.setCentralWidget(
-            centralWidget
-        )
+        centralWidget.setLayout(    mainLayout
+  )
+
+        self.setCentralWidget(       centralWidget   )
 
         # Navigation
 
@@ -198,6 +193,12 @@ class MainWindow(QMainWindow):
             )
         )
 
+        self.collectionsButton.clicked.connect(
+    lambda: self.stack.setCurrentWidget(
+        self.collectionsView
+    )
+)
+
         # Live synchronization
 
         self.manageMoviesView.movieChanged.connect(
@@ -224,6 +225,7 @@ class MainWindow(QMainWindow):
             self.moviePickerButton.setText("")
             self.recommendationsButton.setText("")
             self.collapseButton.setText("")
+            self.collectionsButton.setText("")
 
         else:
 
@@ -246,9 +248,15 @@ class MainWindow(QMainWindow):
                 "Recommendations"
             )
 
+            self.recommendationsButton.setText(
+    "Recommendations"
+)
+
             self.collapseButton.setText(
                 "Collapse"
             )
+
+            
 
         self.sidebarWidget.setMinimumWidth(
             startWidth
