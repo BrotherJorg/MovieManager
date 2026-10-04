@@ -21,4 +21,28 @@ It also provides a rating and review system as well as a recommendation system, 
   - To implement a movie recommendation through random or score selection.
   - To display a simple dashboard for global movie collection statistics.
   - TO apply clean modular and objected oriented programming and database application in the development of the project.
-    
+
+## Features
+
+## Technologies used
+  ####Programming Language
+  -Python 3.14
+  
+  ####GUI Framework / Library
+  -PyQt6
+  -Qt Style Sheets (QSS) for application styling
+  
+  ####Database
+  -SQLite
+  ####Libraries
+  -Python Standard Library
+
+  -sqlite3 for SQLite database integration
+  
+  ####Other Tools and Resources
+  -Git for version control
+  -GitHub for source-code management and repository hosting
+  -VSCodium for development
+  -Manrope font for the application interface
+  -SVG icons for the graphical interface
+  
