@@ -1,5 +1,6 @@
 import sys
 from PyQt6.QtGui import QFontDatabase
+from PyQt6.QtGui import QFont, QFontDatabase
 
 from PyQt6.QtWidgets import QApplication
 from features.main_Window.view import MainWindow
@@ -50,6 +51,10 @@ fontId = QFontDatabase.addApplicationFont(
 
 with open("styles/main.qss", "r") as file:
     app.setStyleSheet(file.read())
+
+if fontId != -1:
+    fontFamily = QFontDatabase.applicationFontFamilies(fontId)[0]
+    app.setFont(QFont(fontFamily, 10))
 
 manageMoviesView = ManageMoviesView(
     service,
