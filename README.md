@@ -49,7 +49,6 @@ It also provides a rating and review system as well as a recommendation system, 
 ## Project Structure
 
 ## Installation and setup
-  ### Installation and Setup
   #### Requirements
   - Python 3.14 or later
   - Git
