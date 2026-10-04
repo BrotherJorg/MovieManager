@@ -14,11 +14,11 @@ from PyQt6.QtWidgets import (
     QMessageBox,
     QAbstractItemView,
     QHeaderView
-    
 )
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 from .model import Movie
 from features.review_notes.view import ReviewNotesView
+
 
 class WatchStatusView(QDialog):
 
@@ -62,9 +62,9 @@ class WatchStatusView(QDialog):
         self.accept()
 
 
-
-
 class ManageMoviesView(QWidget):
+
+    movieChanged = pyqtSignal()
 
     def __init__(self, service, reviewNotesService):
         super().__init__()
@@ -73,19 +73,20 @@ class ManageMoviesView(QWidget):
         self.reviewNotesService = reviewNotesService
 
         self.setWindowTitle("MovieOWL")
-        self.resize(1280 , 720  )
+        self.resize(1280, 720)
 
         self.setup_ui()
         self.loadGenres()
         self.loadMovies()
-        
 
     def setup_ui(self):
 
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
 
-        # Buttons
+        titleLabel = QLabel("Manage Movies")
+        titleLabel.setObjectName("manageMoviesTitle")
+        main_layout.addWidget(titleLabel)
 
         search_layout = QHBoxLayout()
         main_layout.addLayout(search_layout)
@@ -114,9 +115,17 @@ class ManageMoviesView(QWidget):
             "Watched"
         ])
 
-        self.statusCombo.currentIndexChanged.connect(self.searchMovies)
+        self.statusCombo.currentIndexChanged.connect(
+            self.searchMovies
+        )
+
         search_layout.addWidget(self.statusCombo)
 
+        clearFilterButton = QPushButton("Clear Filters")
+        clearFilterButton.clicked.connect(self.clearFilters)
+        search_layout.addWidget(clearFilterButton)
+
+        # Action buttons
 
         action_layout = QHBoxLayout()
 
@@ -136,7 +145,9 @@ class ManageMoviesView(QWidget):
         statusButton.clicked.connect(self.changeWatchStatus)
 
         self.reviewNotesButton = QPushButton("Reviews & Notes")
-        self.reviewNotesButton.clicked.connect(self.openReviewNotes)
+        self.reviewNotesButton.clicked.connect(
+            self.openReviewNotes
+        )
 
         action_layout.addWidget(addButton)
         action_layout.addWidget(viewButton)
@@ -157,102 +168,240 @@ class ManageMoviesView(QWidget):
             "Rating",
             "Status"
         ])
-        self.movieTable.setEditTriggers( QAbstractItemView.EditTrigger.NoEditTriggers)
-       
-        header = self.movieTable.horizontalHeader()
-        
 
-        header.setSectionResizeMode(QHeaderView.ResizeMode.Interactive
+        self.movieTable.setEditTriggers(
+            QAbstractItemView.EditTrigger.NoEditTriggers
         )
-        self.movieTable.setColumnWidth(0, 320)  
-        self.movieTable.setColumnWidth(1, 220)  
-        self.movieTable.setColumnWidth(2, 120)  
-        self.movieTable.setColumnWidth(3, 140)  
-        self.movieTable.setColumnWidth(4, 220)  
 
-        self.movieTable.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.movieTable.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)  
-        self.movieTable.setSelectionMode(  QAbstractItemView.SelectionMode.SingleSelection)
+        header = self.movieTable.horizontalHeader()
+
+        header.setSectionResizeMode(
+            QHeaderView.ResizeMode.Interactive
+        )
+
+        self.movieTable.setColumnWidth(0, 320)
+        self.movieTable.setColumnWidth(1, 220)
+        self.movieTable.setColumnWidth(2, 120)
+        self.movieTable.setColumnWidth(3, 140)
+        self.movieTable.setColumnWidth(4, 220)
+
+        self.movieTable.setEditTriggers(
+            QAbstractItemView.EditTrigger.NoEditTriggers
+        )
+
+        self.movieTable.setSelectionBehavior(
+            QAbstractItemView.SelectionBehavior.SelectRows
+        )
+
+        self.movieTable.setSelectionMode(
+            QAbstractItemView.SelectionMode.SingleSelection
+        )
 
         self.movieTable.setSortingEnabled(True)
-    
-        self.movieTable.horizontalHeader().setStretchLastSection(True)
+
+        self.movieTable.horizontalHeader().setStretchLastSection(
+            True
+        )
 
         main_layout.addWidget(self.movieTable)
         main_layout.addLayout(action_layout)
 
-
-
     def loadMovies(self):
+
         movies = self.service.getMovie()
+
         self.movieTable.setRowCount(len(movies))
 
         for row, movie in enumerate(movies):
-            titleItem =QTableWidgetItem(movie.title)
-            titleItem.setData(Qt.ItemDataRole.UserRole, movie.id)
 
-            self.movieTable.setItem(row, 0, titleItem)
-            self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
-            self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
-            self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
-            self.movieTable.setItem(row, 4, QTableWidgetItem(movie.status))
+            titleItem = QTableWidgetItem(movie.title)
 
+            titleItem.setData(
+                Qt.ItemDataRole.UserRole,
+                movie.id
+            )
+
+            self.movieTable.setItem(
+                row,
+                0,
+                titleItem
+            )
+
+            self.movieTable.setItem(
+                row,
+                1,
+                QTableWidgetItem(str(movie.genre))
+            )
+
+            self.movieTable.setItem(
+                row,
+                2,
+                QTableWidgetItem(str(movie.year))
+            )
+
+            self.movieTable.setItem(
+                row,
+                3,
+                QTableWidgetItem(str(movie.rating))
+            )
+
+            self.movieTable.setItem(
+                row,
+                4,
+                QTableWidgetItem(movie.status)
+            )
 
     def addMovie(self):
-       dialog = QDialog(self)
-       dialog.setWindowTitle("Add Movie")
 
-       formLayout = QFormLayout()
-       dialog.setLayout(formLayout)
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Add Movie")
 
-       self.titleInput = QLineEdit()
-       self.yearInput = QLineEdit()
-       self.genreInput = QLineEdit()
-       self.ratingInput = QLineEdit()
-       
-       formLayout.addRow("Title:", self.titleInput)
-       formLayout.addRow("Genre:", self.genreInput)
-       formLayout.addRow("Year:", self.yearInput)
-       formLayout.addRow("Rating:", self.ratingInput)
+        formLayout = QFormLayout()
+        dialog.setLayout(formLayout)
 
-       addButton = QPushButton("Add")
-       canButton = QPushButton("Cancel")
-       formLayout.addRow(addButton, canButton)
+        self.titleInput = QLineEdit()
+        self.yearInput = QLineEdit()
+        self.genreInput = QLineEdit()
+        self.ratingInput = QLineEdit()
 
-       addButton.clicked.connect(lambda: self.saveMovie(dialog))
-       canButton.clicked.connect(dialog.reject)
-       dialog.exec()
+        formLayout.addRow(
+            "Title:",
+            self.titleInput
+        )
 
+        formLayout.addRow(
+            "Genre:",
+            self.genreInput
+        )
+
+        formLayout.addRow(
+            "Year:",
+            self.yearInput
+        )
+
+        formLayout.addRow(
+            "Rating:",
+            self.ratingInput
+        )
+
+        addButton = QPushButton("Add")
+        cancelButton = QPushButton("Cancel")
+
+        formLayout.addRow(
+            addButton,
+            cancelButton
+        )
+
+        addButton.clicked.connect(
+            lambda: self.saveMovie(dialog)
+        )
+
+        cancelButton.clicked.connect(
+            dialog.reject
+        )
+
+        dialog.exec()
 
     def saveMovie(self, dialog):
-        title = self.titleInput.text()
-        genre = self.genreInput.text()
-        year = int(self.yearInput.text())
-        rating = float(self.ratingInput.text())
-       
-        movie = Movie(title, genre, year, rating)
 
-        self.service.addMovie(movie)
+        title = self.titleInput.text().strip()
+        genre = self.genreInput.text().strip()
+        yearText = self.yearInput.text().strip()
+        ratingText = self.ratingInput.text().strip()
 
+        if not title:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Title cannot be empty."
+            )
+            return
+
+        if not genre:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Genre cannot be empty."
+            )
+            return
+
+        try:
+            year = int(yearText)
+        except ValueError:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Year must be a whole number."
+            )
+            return
+
+        try:
+            rating = float(ratingText)
+        except ValueError:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Rating must be a number."
+            )
+            return
+
+        if year < 1888 or year > 2100:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Please enter a valid movie year."
+            )
+            return
+
+        if rating < 0 or rating > 10:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Rating must be between 0 and 10."
+            )
+            return
+
+        movie = Movie(
+            title,
+            genre,
+            year,
+            rating
+        )
+
+        success = self.service.addMovie(movie)
+
+        if not success:
+            QMessageBox.warning(
+                self,
+                "Duplicate Movie",
+                "A movie with this title already exists."
+            )
+            return
+
+        self.loadGenres()
         self.loadMovies()
+        self.movieChanged.emit()
+
         dialog.accept()
 
-
     def viewDetails(self):
+
         row = self.movieTable.currentRow()
 
         if row == -1:
             return
 
-       
-        movie_id = self.movieTable.item(row, 0).data(Qt.ItemDataRole.UserRole)
+        movie_id = self.movieTable.item(
+            row,
+            0
+        ).data(Qt.ItemDataRole.UserRole)
 
         movies = self.service.getMovie()
 
         movie = next(
             movie for movie in movies
             if movie.id == movie_id
-            )       
+        )
 
         dialog = QDialog(self)
         dialog.setWindowTitle("Movie Details")
@@ -260,30 +409,56 @@ class ManageMoviesView(QWidget):
         layout = QFormLayout()
         dialog.setLayout(layout)
 
-        layout.addRow("Title:", QLabel(movie.title))
-        layout.addRow("Genre:", QLabel(movie.genre))
-        layout.addRow("Year:", QLabel(str(movie.year)))
-        layout.addRow("Rating:", QLabel(str(movie.rating)))
+        layout.addRow(
+            "Title:",
+            QLabel(movie.title)
+        )
 
+        layout.addRow(
+            "Genre:",
+            QLabel(movie.genre)
+        )
 
-        self.service.addMovie(movie)
-        self.loadMovies()
-        dialog.accept()
+        layout.addRow(
+            "Year:",
+            QLabel(str(movie.year))
+        )
 
+        layout.addRow(
+            "Rating:",
+            QLabel(str(movie.rating))
+        )
+
+        layout.addRow(
+            "Status:",
+            QLabel(movie.status)
+        )
+
+        closeButton = QPushButton("Close")
+        closeButton.clicked.connect(
+            dialog.accept
+        )
+
+        layout.addRow(closeButton)
+
+        dialog.exec()
 
     def editMovie(self):
+
         row = self.movieTable.currentRow()
 
         if row == -1:
             return
-        
 
-        movie_id = self.movieTable.item(row, 0).data(Qt.ItemDataRole.UserRole)
+        movie_id = self.movieTable.item(
+            row,
+            0
+        ).data(Qt.ItemDataRole.UserRole)
 
         movies = self.service.getMovie()
-        
-        movie = next (
-            movie for movie in movies 
+
+        movie = next(
+            movie for movie in movies
             if movie.id == movie_id
         )
 
@@ -298,47 +473,134 @@ class ManageMoviesView(QWidget):
         self.genreInput = QLineEdit(movie.genre)
         self.ratingInput = QLineEdit(str(movie.rating))
 
-        formLayout.addRow("Title:", self.titleInput)
-        formLayout.addRow("Genre:", self.genreInput)
-        formLayout.addRow("Year:", self.yearInput)
-        formLayout.addRow("Rating:", self.ratingInput)
+        formLayout.addRow(
+            "Title:",
+            self.titleInput
+        )
+
+        formLayout.addRow(
+            "Genre:",
+            self.genreInput
+        )
+
+        formLayout.addRow(
+            "Year:",
+            self.yearInput
+        )
+
+        formLayout.addRow(
+            "Rating:",
+            self.ratingInput
+        )
 
         saveButton = QPushButton("Save")
         cancelButton = QPushButton("Cancel")
 
-        formLayout.addRow(saveButton, cancelButton)
+        formLayout.addRow(
+            saveButton,
+            cancelButton
+        )
 
-        saveButton.clicked.connect(lambda: self.saveEdit(dialog, movie))
-        cancelButton.clicked.connect(dialog.reject)
+        saveButton.clicked.connect(
+            lambda: self.saveEdit(
+                dialog,
+                movie
+            )
+        )
+
+        cancelButton.clicked.connect(
+            dialog.reject
+        )
 
         dialog.exec()
 
-
     def saveEdit(self, dialog, movie):
-        movie.title = self.titleInput.text()
-        movie.genre = self.genreInput.text()
-        movie.year = int(self.yearInput.text())
-        movie.rating = float(self.ratingInput.text())
+
+        title = self.titleInput.text().strip()
+        genre = self.genreInput.text().strip()
+        yearText = self.yearInput.text().strip()
+        ratingText = self.ratingInput.text().strip()
+
+        if not title:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Title cannot be empty."
+            )
+            return
+
+        if not genre:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Genre cannot be empty."
+            )
+            return
+
+        try:
+            year = int(yearText)
+        except ValueError:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Year must be a whole number."
+            )
+            return
+
+        try:
+            rating = float(ratingText)
+        except ValueError:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Rating must be a number."
+            )
+            return
+
+        if year < 1888 or year > 2100:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Please enter a valid movie year."
+            )
+            return
+
+        if rating < 0 or rating > 10:
+            QMessageBox.warning(
+                self,
+                "Invalid Input",
+                "Rating must be between 0 and 10."
+            )
+            return
+
+        movie.title = title
+        movie.genre = genre
+        movie.year = year
+        movie.rating = rating
 
         self.service.updateMovie(movie)
 
-        dialog.accept()
+        self.loadGenres()
         self.searchMovies()
+        self.movieChanged.emit()
 
+        dialog.accept()
 
     def deleteMovie(self):
-        
+
         row = self.movieTable.currentRow()
 
         if row == -1:
             return
 
         movie_id = self.movieTable.item(
-            row, 0
+            row,
+            0
         ).data(Qt.ItemDataRole.UserRole)
 
         movie_title = self.movieTable.item(
-            row, 0
+            row,
+            0
         ).text()
 
         confirmation = QMessageBox.question(
@@ -355,32 +617,94 @@ class ManageMoviesView(QWidget):
 
         self.service.deleteMovie(movie_id)
 
+        self.loadGenres()
         self.loadMovies()
-
+        self.movieChanged.emit()
 
     def searchMovies(self):
-        searchText =  self.searchInput.text()
+
+        searchText = self.searchInput.text()
         genre = self.genreCombo.currentText()
         status = self.statusCombo.currentText()
 
-        movies = self.service.searchMovies(searchText, genre, status)
+        movies = self.service.searchMovies(
+            searchText,
+            genre,
+            status
+        )
 
-        self.movieTable.setRowCount(len(movies))
+        self.movieTable.setRowCount(
+            len(movies)
+        )
 
         for row, movie in enumerate(movies):
-            titleItem = QTableWidgetItem(movie.title)
-            titleItem.setData(Qt.ItemDataRole.UserRole, movie.id)
-            self.movieTable.setItem(row, 0, titleItem)
 
-            self.movieTable.setItem(row, 1, QTableWidgetItem(str(movie.genre)))
-            self.movieTable.setItem(row, 2, QTableWidgetItem(str(movie.year)))
-            self.movieTable.setItem(row, 3, QTableWidgetItem(str(movie.rating)))
-            self.movieTable.setItem(row, 4, QTableWidgetItem(movie.status))
+            titleItem = QTableWidgetItem(
+                movie.title
+            )
 
+            titleItem.setData(
+                Qt.ItemDataRole.UserRole,
+                movie.id
+            )
+
+            self.movieTable.setItem(
+                row,
+                0,
+                titleItem
+            )
+
+            self.movieTable.setItem(
+                row,
+                1,
+                QTableWidgetItem(
+                    str(movie.genre)
+                )
+            )
+
+            self.movieTable.setItem(
+                row,
+                2,
+                QTableWidgetItem(
+                    str(movie.year)
+                )
+            )
+
+            self.movieTable.setItem(
+                row,
+                3,
+                QTableWidgetItem(
+                    str(movie.rating)
+                )
+            )
+
+            self.movieTable.setItem(
+                row,
+                4,
+                QTableWidgetItem(
+                    movie.status
+                )
+            )
+
+    def clearFilters(self):
+
+        self.searchInput.clear()
+
+        self.genreCombo.blockSignals(True)
+        self.statusCombo.blockSignals(True)
+
+        self.genreCombo.setCurrentIndex(0)
+        self.statusCombo.setCurrentIndex(0)
+
+        self.genreCombo.blockSignals(False)
+        self.statusCombo.blockSignals(False)
+
+        self.loadMovies()
 
     def loadGenres(self):
+
         genres = self.service.getGenres()
-        
+
         self.genreCombo.blockSignals(True)
 
         self.genreCombo.clear()
@@ -389,18 +713,21 @@ class ManageMoviesView(QWidget):
 
         self.genreCombo.blockSignals(False)
 
-
     def changeWatchStatus(self):
+
         row = self.movieTable.currentRow()
 
         if row == -1:
             return
-       
-        movie_id = self.movieTable.item(row, 0).data(Qt.ItemDataRole.UserRole)
-        
+
+        movie_id = self.movieTable.item(
+            row,
+            0
+        ).data(Qt.ItemDataRole.UserRole)
+
         movies = self.service.getMovie()
 
-        movie = next (
+        movie = next(
             movie for movie in movies
             if movie.id == movie_id
         )
@@ -411,8 +738,10 @@ class ManageMoviesView(QWidget):
             self
         )
 
-        if dialog.exec():
-            self.searchMovies()
+        dialog.exec()
+
+        self.searchMovies()
+        self.movieChanged.emit()
 
     def openReviewNotes(self):
 
@@ -422,7 +751,8 @@ class ManageMoviesView(QWidget):
             return
 
         movie_id = self.movieTable.item(
-            row, 0
+            row,
+            0
         ).data(Qt.ItemDataRole.UserRole)
 
         movies = self.service.getMovie()
@@ -437,7 +767,6 @@ class ManageMoviesView(QWidget):
             self.reviewNotesService
         )
 
-        dialog.exec()
-
-        self.searchMovies()
-
+        if dialog.exec():
+            self.searchMovies()
+            self.movieChanged.emit()

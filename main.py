@@ -53,7 +53,7 @@ if fontId != -1:
     app.setFont(QFont(fontFamily, 10))
 
 with open("styles/main.qss", "r") as file:
-    app.setStyleSheet(file.read())
+   app.setStyleSheet(file.read())
 
 manageMoviesView = ManageMoviesView(
     service,

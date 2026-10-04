@@ -3,7 +3,8 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QLabel,
-    QFrame
+    QFrame,
+    QScrollArea
 )
 from PyQt6.QtCore import Qt
 
@@ -80,16 +81,16 @@ class DashboardView(QWidget):
 
         mainLayout.addLayout(statsLayout)
 
-
-
         statisticsLayout = QHBoxLayout()
         statisticsLayout.setSpacing(12)
 
         genreFrame = QFrame()
         genreFrame.setObjectName("dashboardSection")
-        genreFrame.setMaximumHeight(180)
+        genreFrame.setFixedHeight(220)
+
         genreLayout = QVBoxLayout(genreFrame)
-        
+        genreLayout.setContentsMargins(12, 12, 12, 12)
+        genreLayout.setSpacing(8)
 
         genreTitle = QLabel("Genre Statistics")
         genreTitle.setObjectName("dashboardSectionTitle")
@@ -97,15 +98,45 @@ class DashboardView(QWidget):
 
         genreLayout.addWidget(genreTitle)
 
-        self.genreLabel = QLabel()
-        self.genreLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        genreScroll = QScrollArea()
+        genreScroll.setWidgetResizable(True)
 
-        genreLayout.addWidget(self.genreLabel)
+        genreScroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+
+        genreScroll.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
+        )
+
+        genreContent = QWidget()
+
+        genreContentLayout = QVBoxLayout(genreContent)
+        genreContentLayout.setContentsMargins(4, 4, 4, 4)
+
+        self.genreLabel = QLabel()
+
+        self.genreLabel.setAlignment(
+            Qt.AlignmentFlag.AlignLeft |
+            Qt.AlignmentFlag.AlignTop
+        )
+
+        self.genreLabel.setWordWrap(True)
+
+        genreContentLayout.addWidget(self.genreLabel)
+        genreContentLayout.addStretch()
+
+        genreScroll.setWidget(genreContent)
+
+        genreLayout.addWidget(genreScroll)
 
         statusFrame = QFrame()
         statusFrame.setObjectName("dashboardSection")
-        statusFrame.setMaximumHeight(180)
+        statusFrame.setFixedHeight(220)
+
         statusLayout = QVBoxLayout(statusFrame)
+        statusLayout.setContentsMargins(12, 12, 12, 12)
+        statusLayout.setSpacing(8)
 
         statusTitle = QLabel("Status Statistics")
         statusTitle.setObjectName("dashboardSectionTitle")
@@ -114,15 +145,19 @@ class DashboardView(QWidget):
         statusLayout.addWidget(statusTitle)
 
         self.statusLabel = QLabel()
-        self.statusLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.statusLabel.setAlignment(
+            Qt.AlignmentFlag.AlignLeft |
+            Qt.AlignmentFlag.AlignTop
+        )
 
         statusLayout.addWidget(self.statusLabel)
+        statusLayout.addStretch()
 
         statisticsLayout.addWidget(genreFrame)
         statisticsLayout.addWidget(statusFrame)
 
         mainLayout.addLayout(statisticsLayout)
-
 
         self.averageRatingLabel = QLabel(
             "Average Rating: 0"
@@ -168,3 +203,6 @@ class DashboardView(QWidget):
         )
 
         self.statusLabel.setText(statusText)
+
+    def refresh(self):
+        self.loadDashboard()

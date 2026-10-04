@@ -4,7 +4,7 @@ class MovieService:
         self.repository = repository
 
     def addMovie(self, movie):
-        self.repository.add(movie)
+        return self.repository.add(movie)
 
     def getMovie(self):
         return self.repository.getAll()

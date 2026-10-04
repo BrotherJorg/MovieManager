@@ -8,20 +8,33 @@ class MovieRepository:
 
     def add(self, movie):
         cursor = self.database.connection.cursor()
-       
+
+        cursor.execute("""
+            SELECT id
+            FROM Movies
+            WHERE title = ?
+        """, (movie.title,))
+
+        existingMovie = cursor.fetchone()
+
+        if existingMovie:
+            return False
+
         values = (
             movie.title,
             movie.genre,
             movie.year,
             movie.rating
-            )
+        )
 
         cursor.execute("""
             INSERT INTO Movies (title, genre, year, rating)
-            VALUES(?, ?, ?, ?)
+            VALUES (?, ?, ?, ?)
         """, values)
 
         self.database.connection.commit()
+
+        return True
 
 
     def getAll(self):
