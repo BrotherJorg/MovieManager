@@ -45,4 +45,35 @@ It also provides a rating and review system as well as a recommendation system, 
   - VSCodium for development
   - Manrope font for the application interface
   - SVG icons for the graphical interface
+
+## Project Structure
+
+## Installation and setup
+  ### Installation and Setup
+  #### Requirements
+  - Python 3.14 or later
+  - Git
+  - PyQt6
+    
+  #### Installation
+  1. Clone the repository:
+  git clone <repository-url>
+  cd MovieOwl
+
+  2. Create a virtual environment:
+  python -m venv .venv
+  
+  3. Activate the virtual environment.
+
+  in Windows PowerShell:
+
+  .\.venv\Scripts\Activate.ps1
+  
+  4. Install the required dependency:
+  pip install PyQt6
+  
+  5, Run the application:
+  python main.py
+
+
   
