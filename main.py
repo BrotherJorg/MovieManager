@@ -43,6 +43,9 @@ recommendationService = RecommendationService(   recommendationRepository)
 
 app = QApplication(sys.argv)
 
+with open("styles/main.qss", "r") as file:
+    app.setStyleSheet(file.read())
+
 manageMoviesView = ManageMoviesView(
     service,
     reviewNotesService
