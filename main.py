@@ -1,4 +1,5 @@
 import sys
+from PyQt6.QtGui import QFontDatabase
 
 from PyQt6.QtWidgets import QApplication
 from features.main_Window.view import MainWindow
@@ -42,6 +43,10 @@ recommendationRepository = RecommendationRepository()
 recommendationService = RecommendationService(   recommendationRepository)
 
 app = QApplication(sys.argv)
+
+fontId = QFontDatabase.addApplicationFont(
+    "assets/fonts/protest-riot-latin-400-normal.ttf"
+)
 
 with open("styles/main.qss", "r") as file:
     app.setStyleSheet(file.read())
