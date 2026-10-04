@@ -12,3 +12,13 @@ Personal management of a collection gets harder the bigger it grows. It can be h
 
 MovieOwl solves this problem by providing an intuitive management environment that allows user management of creating the collection, editing it, searching, filtering, and logging movies.
 It also provides a rating and review system as well as a recommendation system, all in one desktop environment.
+
+## Objectives
+  - To develop a single centralized desktop application for managing personal movie collections.
+  - To provide users the tools for creating, editing, and searching of movies.
+  - To allow users the ability to organize their movies through collections and favorites.
+  - To create a system for managing movie ratings, movie reviews and movie notes.
+  - To implement a movie recommendation through random or score selection.
+  - To display a simple dashboard for global movie collection statistics.
+  - TO apply clean modular and objected oriented programming and database application in the development of the project.
+    
