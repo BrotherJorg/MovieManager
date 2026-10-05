@@ -2,8 +2,7 @@
 
 ## Description
 
-MovieOwl is a desktop application built using Python, SQLite, and PyQt which provides a simplified, intuitive and simple movie management system
-The program allows for creating, editing, searching, filtering, and creation of collections of movies with access to a simple review and notes system, with additional support for movie recommendations through a scoring system and random selection. Finally, a dashboard is present for simplified readings of collection statistics.
+MovieOwl is a desktop application built using Python, SQLite, and PyQt which provides a simplified, intuitive and simple movie management system.
 
 Personal management of a movie collection gets harder the bigger it grows. This is true in our digital age where movies can be scattered on different platforms. It can be hard to know what you own in and keep track of movies and their watch status, their reviews, their ratings and your personal notes especially with online services or manual writing.
 
@@ -11,11 +10,11 @@ MovieOwl solves this problem by packaging a movie record, recommendation, note a
 
 ## Objectives
 - To develop a single centralized desktop application for managing personal movie collections.
-- To provide a user a way to record the movies they are watching, watched or unwatched.
+- To provide users a way to record the movies in their collection.
 - To provide users the tools for creating, editing, and searching for movies.
 - To allow users the ability to organize their movies through collections and favorites.
 - To create a system for managing movie ratings, movie reviews and movie notes.
-- To implement a movie recommendation system through random or score selection.
+- To implement a movie recommendation system through random or score based selection.
 - To display a simple dashboard for global movie collection statistics.
 - To apply clean modular architecture, object oriented programming, database application and clean code practice in the development of the project.
 
@@ -24,15 +23,15 @@ MovieOwl solves this problem by packaging a movie record, recommendation, note a
 ### Dashboard
 Display current database records and simple statistics in a neat, readable format.
   	
-- Allows the user to see total number of movies, number of watched, watching, unwatched movies and displays number of movies per genre and the average rating in the whole collection.
+- Allows the user to see total number of movies, number of watched, watching, unwatched movies.
+- Displays number of movies per genre and the average rating in the whole collection.
 - Display dashboard at the start of application.
   
 ### Movie Management
 Display table of movies.
 - Allows adding, editing, viewing details, deleting of movie records.
 - Allows user keyword searching, filtering by genres, by watch status.
-- Provide the user buttons for changing watch status (added movies unwatched by default), for toggling a movie as favorites.
-  
+
 ### Watch status
 Allows tracking of movie watch status.
 - Allows tagging movie as watched.
@@ -41,6 +40,7 @@ Allows tracking of movie watch status.
 
 ### Review
 Allows writing personal opinion on a movie entry
+- Allows users to rate a movie.
 - Allows writing a review.
 - Allows writing a note.
 -  Save each movie review persistently per movie.
@@ -48,19 +48,14 @@ Allows writing personal opinion on a movie entry
 ### Recommendation
 Allows recommendation in two ways, a random movie or through a score.
 - Provide selection of a random movie and displays it’s details.
-- Provide consistent recommendations on recommendation page with movie ranking prioritizing unwatched movies.
+- Provide consistent recommendations on recommendation page. 
+- Selects unwatched and highly rated movies.
 
 ### User Collection
 Allows user created collections/playlists of movies.
-- Allows reation of custom named collection.
+- Allows creation of custom named collection.
 - Allows adding of movies to one or more collection.
 - A default collection called favorites exits and movie added to favorites are automatically added on it.
-
-### Favorites
-Display recent favorites
-- Allows viewing of favorite movies and their details.
-
-
 
 
 
