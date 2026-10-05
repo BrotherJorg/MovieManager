@@ -122,9 +122,6 @@ movie_picker/:
 collections/:
 favorites/:
 main_Window/:
-
-  
-#### Installation
   
 ## Installation and Setup
 
