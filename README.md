@@ -32,10 +32,18 @@ Display table of movies.
 - Allows adding, editing, viewing details, deleting of movie records.
 - Allows user keyword searching, filtering by genres, by watch status.
 - Provide the user buttons for changing watch status (added movies unwatched by default), for toggling a movie as favorites.
+  
+### Watch status
+Allows tracking of movie watch status.
+- Allows tagging movie as watched.
+- Allows tagging movie as watching
+- Newly added movies tagged as unwatched as default.
 
 ### Review
-Allows writing of review and notes text.
--  Save each movie review persistently.
+Allows writing personal opinion on a movie entry
+- Allows writing a review.
+- Allows writing a note.
+-  Save each movie review persistently per movie.
 
 ### Recommendation
 Allows recommendation in two ways, a random movie or through a score.
@@ -54,6 +62,9 @@ Display recent favorites
 
 
 
+
+
+
 ## Technologies used
   #### Programming Language
   - Python 3.14
@@ -69,12 +80,12 @@ Display recent favorites
   - Python Standard Library
   - sqlite3 for SQLite database integration
   
-  #### Other Tools and Resources
-  - Git for version control
-  - GitHub for source-code management and repository hosting
-  - VSCodium for development
-  - Manrope font for the application interface
-  - SVG icons for the graphical interface
+    ##### Other Tools and Resources
+    - Git for version control
+    - GitHub for source-code management and repository hosting
+    - VSCodium for development
+    - Manrope font for the application interface
+    - SVG icons for the graphical interface
 
 ## Project Structure
 
