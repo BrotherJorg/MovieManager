@@ -291,3 +291,5 @@ The primary key is the pair (movie_id, collection_id), so a movie can be in many
 | Search | Finds movies by keyword and filters by genre or watch status | `SELECT * FROM movies WHERE title LIKE ?` |
 
 The Dashboard uses aggregate queries (`COUNT`, `AVG`, `GROUP BY genre`) for the totals, status counts, movies per genre, and the average rating.
+
+## Screenshots
