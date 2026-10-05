@@ -36,6 +36,13 @@ class Database():
             )
         """)
 
+
+        cursor.execute("""
+            INSERT OR IGNORE INTO collections (name)
+            VALUES ('Favorites')
+        """)
+
+
         cursor.execute("PRAGMA table_info(movies)")
         columns = [column[1] for column in cursor.fetchall()]
 

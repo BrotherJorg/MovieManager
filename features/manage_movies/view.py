@@ -66,11 +66,12 @@ class ManageMoviesView(QWidget):
 
     movieChanged = pyqtSignal()
 
-    def __init__(self, service, reviewNotesService):
+    def __init__(self, service, reviewNotesService, favoritesService):
         super().__init__()
 
         self.service = service
         self.reviewNotesService = reviewNotesService
+        self.favoritesService = favoritesService
 
         self.setWindowTitle("MovieOWL")
         self.resize(1280, 720)
@@ -146,9 +147,10 @@ class ManageMoviesView(QWidget):
         statusButton.clicked.connect(self.changeWatchStatus)
 
         self.reviewNotesButton = QPushButton("Reviews & Notes")
-        self.reviewNotesButton.clicked.connect(
-            self.openReviewNotes
-        )
+        self.reviewNotesButton.clicked.connect(     self.openReviewNotes  )
+
+        self.favoriteButton = QPushButton(    "Toggle Favorite")
+        self.favoriteButton.clicked.connect(self.toggleFavorite)
 
         action_layout.addWidget(addButton)
         action_layout.addWidget(viewButton)
@@ -156,6 +158,7 @@ class ManageMoviesView(QWidget):
         action_layout.addWidget(deleteButton)
         action_layout.addWidget(statusButton)
         action_layout.addWidget(self.reviewNotesButton)
+        action_layout.addWidget( self.favoriteButton)
 
         # GUI TABLE
 
@@ -771,3 +774,34 @@ class ManageMoviesView(QWidget):
         if dialog.exec():
             self.searchMovies()
             self.movieChanged.emit()
+
+    def toggleFavorite(self):
+
+        row = self.movieTable.currentRow()
+
+        if row == -1:
+            return
+
+        movieId = self.movieTable.item(
+            row,
+            0
+        ).data(Qt.ItemDataRole.UserRole)
+
+        isFavorite = self.favoritesService.toggleFavorite(
+            movieId
+        )
+
+        if isFavorite:
+            QMessageBox.information(
+                self,
+                "Favorites",
+                "Movie added to Favorites."
+            )
+        else:
+            QMessageBox.information(
+                self,
+                "Favorites",
+                "Movie removed from Favorites."
+            )
+
+        self.movieChanged.emit()

@@ -947,3 +947,45 @@ QLabel#collectionTitle {
     border-bottom: 2px solid #403545;
 }
 
+/* =========================================================
+   FAVORITES
+   ========================================================= */
+
+#favoritesView {
+    background-color: #F6D7A7;
+}
+
+QLabel#favoritesTitle {
+    color: #403545;
+    font-size: 34px;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-bottom: 4px solid #D88932;
+}
+
+#favoritesMovieList {
+    background-color: #FFF8E8;
+    color: #403545;
+    border: 2px solid #403545;
+    border-left: 6px solid #B76578;
+    border-radius: 10px;
+    padding: 6px;
+}
+
+#favoritesMovieList::item {
+    background-color: #FFF8E8;
+    color: #403545;
+    padding: 10px;
+    border-bottom: 1px solid #DDCCB7;
+}
+
+#favoritesMovieList::item:hover {
+    background-color: #FBEFD9;
+    color: #403545;
+}
+
+#favoritesMovieList::item:selected {
+    background-color: #403545;
+    color: #FFF8E8;
+}
+
