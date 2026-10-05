@@ -22,8 +22,7 @@ MovieOwl solves this problem by packaging a movie record, recommendation, note a
 
 ### Dashboard
 Display current database records and simple statistics in a neat, readable format.
-  	
-- Allows the user to see total number of movies, number of watched, watching, unwatched movies.
+- Allows the user to see the total number of movies, number of watched, watching, unwatched movies.
 - Displays number of movies per genre and the average rating in the whole collection.
 - Display dashboard at the start of application.
   
@@ -43,13 +42,13 @@ Allows writing personal opinion on a movie entry
 - Allows users to rate a movie.
 - Allows writing a review.
 - Allows writing a note.
--  Save each movie review persistently per movie.
+- Save each movie review persistently per movie.
 
 ### Recommendation
 Allows recommendation in two ways, a random movie or through a score.
-- Provide selection of a random movie and displays it’s details.
-- Provide consistent recommendations on recommendation page. 
-- Selects unwatched and highly rated movies.
+- Allows selection of a random movie and displays it’s details.
+- Allows ranked recommendations on recommendation page. 
+- Selects unwatched and highly rated movies in database.
 
 ### User Collection
 Allows user created collections/playlists of movies.
@@ -65,31 +64,81 @@ Allows user created collections/playlists of movies.
   - Python 3.14
   
   #### GUI Framework / Library
-  - PyQt6
+  - PyQt6 6.11.0.
   - Qt Style Sheets (QSS) for application styling
   
   #### Database
-  - SQLite
-    
-  #### Libraries
-  - Python Standard Library
-  - sqlite3 for SQLite database integration
-  
-    ##### Other Tools and Resources
-    - Git for version control
-    - GitHub for source-code management and repository hosting
-    - VSCodium for development
-    - Manrope font for the application interface
-    - SVG icons for the graphical interface
+  - SQLite3
+
+  #### Libraries, Other Tools and Resources
+  - Python Standard Library.
+  - Git for version control.
+  - GitHub for source-code management and repository hosting.
+  - VSCode for development environment.
+  - Manrope font for the application interface.
+  - SVG icons for the graphical interface.
 
 ## Project Structure
+MovieOwl/
+├── Assets/
+│   ├── fonts/
+│   └── icons/
+├── Styles/
+├── db/
+│   └── database.py
+├── features/
+│   ├── collections/
+│   │   ├── repository.py
+│   │   ├── service.py
+│   │   └── view.py
+│   ├── dashboard/
+│   ├── favorites/
+│   ├── main_Window/
+│   ├── manage_movies/
+│   ├── movie_picker/
+│   ├── recommendations/
+│   └── review_notes/
+├── .env.example
+├── .gitignore
+├── main.py
+├── Movies.db
+└── README.md
+
+Root files
+main.py:
+Movies.db:
+.gitignore:
+
+Folders
+Assets/: 
+Styles/:
+db/: 
+features/:
+
+Feature module pattern
+Each folder in features/ is organized the same way:
+repository.py: 
+service.py: 
+view.py:
+model.py:
+
+Feature folders
+dashboard/:
+manage_movies/: 
+review_notes/:
+recommendations/: 
+movie_picker/: 
+collections/:
+favorites/:
+main_Window/:
 
 ## Installation and setup
   #### Requirements
   - Python 3.14 or later
   - Git
-  - PyQt6
-    
+  - PyQt6 
+
+  
   #### Installation
   
   1. Clone the repository:
