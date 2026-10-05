@@ -296,6 +296,11 @@ The Dashboard uses aggregate queries (`COUNT`, `AVG`, `GROUP BY genre`) for the 
 ### Dashboard
 <img width="2836" height="1765" alt="Dashboard" src="https://github.com/user-attachments/assets/3a3c0808-ca0f-4368-b707-20a83d960c0a" />
 
-The initial page at startup, that displays simplified information, such as total movies, movies per genre, movies watched or watching.
+The initial page at startup that displays simplified information, such as total movies, movies per genre, movies watched or watching.
+
+### Manage Movies
+<img width="2858" height="1780" alt="Manage Movies" src="https://github.com/user-attachments/assets/d08f350d-e9c3-42dc-9630-af8c1d9dc35e" />
+The main page where user add, edits and interacts with their collection, searching and filtering options are provide for moderate to large sized collections. It allows sorting in three layers. First is keyword search, Genre and then status which can be combined. Review, status update and favorites button are also in this page.
+
 
 
