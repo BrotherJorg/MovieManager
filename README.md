@@ -24,9 +24,8 @@ MovieOwl solves this problem by packaging a movie record, recommendation, note a
 ### Dashboard
 Display current database records and simple statistics in a neat, readable format.
   	
-	- Allows the user to see total number of movies, number of watched, watching, unwatched movies and displays number of movies per genre and the average rating in the whole collection.
-	
-	- Display dashboard at the start of application.
+- Allows the user to see total number of movies, number of watched, watching, unwatched movies and displays number of movies per genre and the average rating in the whole collection.
+- - Display dashboard at the start of application.
 
 
 ## Technologies used
