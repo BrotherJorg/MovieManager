@@ -207,6 +207,47 @@ When setup is successful, the application window opens on the Dashboard.
 
 11. **Read the Dashboard.** Return to the Dashboard to see the total number of movies, how many are Watched, Watching, and Unwatched, the number of movies per genre, and the average rating.
 
+## OOP Implementation
+
+MovieOwl was developed using object-oriented programming principles. The system is divided into classes with specific responsibilities, allowing different parts of the application to be organized and maintained independently.
+
+### Important Classes and Objects
+
+| Class | Purpose |
+|---|---|
+| `Database` | Manages the SQLite database connection and database initialization. |
+| `MovieRepository` | Handles database operations related to movie records. |
+| `MovieService` | Contains the application logic for movie management. |
+| `ManageMoviesView` | Provides the graphical interface for adding, viewing, editing, deleting, searching, and filtering movies. |
+| `CollectionRepository` | Handles database operations involving collections and movie-collection relationships. |
+| `CollectionService` | Provides collection-related application logic. |
+| `CollectionsView` | Provides the graphical interface for managing collections. |
+| `FavoritesService` | Handles the logic for adding and removing movies from the Favorites collection. |
+| `FavoritesView` | Displays movies currently marked as favorites. |
+| `DashboardView` | Displays statistics and summary information from the database. |
+| `RecommendationService` | Handles the logic used to generate movie recommendations. |
+| `RecommendationsView` | Displays recommended movies to the user. |
+| `MoviePickerService` | Handles random movie selection. |
+| `MoviePickerView` | Provides the interface for randomly selecting a movie. |
+| `ReviewNotesService` | Handles the logic for movie reviews and notes. |
+| `ReviewNotesView` | Provides the interface for writing and viewing reviews and notes. |
+| `MainWindow` | Acts as the main application window and manages navigation between features. |
+
+### Encapsulation
+
+Encapsulation is applied by assigning specific responsibilities to individual classes and controlling how different parts of the application interact.
+
+For example, database operations are handled by repository classes rather than being performed directly by the graphical interface. Services also provide a layer between the views and repositories, allowing application logic to remain separate from the GUI.
+
+### Inheritance
+
+Inheritance is primarily used in the PyQt6 interface classes. Feature views inherit from Qt widget classes such as `QWidget` and `QMainWindow`.
+
+
+
+
+
+
 ### Database Structure
 MovieOwl stores its data in a local SQLite database, `Movies.db`. The `Database` class in `db/database.py` opens the connection and creates the tables on startup if they don't exist, so the database is rebuilt automatically when the file is missing. The database has three tables: movies, collections, and a link table that connects them.
 
