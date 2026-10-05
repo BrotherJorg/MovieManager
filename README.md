@@ -302,5 +302,9 @@ The initial page at startup that displays simplified information, such as total 
 <img width="2858" height="1780" alt="Manage Movies" src="https://github.com/user-attachments/assets/d08f350d-e9c3-42dc-9630-af8c1d9dc35e" />
 The main page where user add, edits and interacts with their collection, searching and filtering options are provide for moderate to large sized collections. It allows sorting in three layers. First is keyword search, Genre and then status which can be combined. Review, status update and favorites button are also in this page.
 
+### Collections
+<img width="2812" height="1747" alt="Collections" src="https://github.com/user-attachments/assets/fb9c6d0a-ed6f-4432-8c48-b98ea0495123" />
+The page for user created collections, default collection is "favorites" movies toggled favorites are automatically added here. User can also create their own.
+
 
 
