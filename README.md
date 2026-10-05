@@ -79,29 +79,29 @@ Allows user created collections/playlists of movies.
   - SVG icons for the graphical interface.
 
 ## Project Structure
-MovieOwl/
-├── Assets/
-│   ├── fonts/
-│   └── icons/
-├── Styles/
-├── db/
-│   └── database.py
-├── features/
-│   ├── collections/
-│   │   ├── repository.py
-│   │   ├── service.py
-│   │   └── view.py
-│   ├── dashboard/
-│   ├── favorites/
-│   ├── main_Window/
-│   ├── manage_movies/
-│   ├── movie_picker/
-│   ├── recommendations/
-│   └── review_notes/
-├── .env.example
-├── .gitignore
-├── main.py
-├── Movies.db
+    MovieOwl/
+    ├── Assets/
+    │   ├── fonts/
+    │   └── icons/
+    ├── Styles/
+    ├── db/
+    │   └── database.py
+    ├── features/
+    │   ├── collections/
+    │   │   ├── repository.py
+    │   │   ├── service.py
+    │   │   └── view.py
+    │   ├── dashboard/
+    │   ├── favorites/
+    │   ├── main_Window/
+    │   ├── manage_movies/
+    │   ├── movie_picker/
+    │   ├── recommendations/
+    │   └── review_notes/
+    ├── .env.example
+    ├── .gitignore
+    ├── main.py
+    ├── Movies.db
 └── README.md
 
 Root files
