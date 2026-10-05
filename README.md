@@ -104,17 +104,6 @@ Allows user created collections/playlists of movies.
     ├── Movies.db
     └── README.md
 
-Root files
-main.py:
-Movies.db:
-.gitignore:
-
-Folders
-Assets/: 
-Styles/:
-db/: 
-features/:
-
 Feature module pattern
 Each folder in features/ is organized the same way:
 repository.py: 
@@ -132,35 +121,67 @@ collections/:
 favorites/:
 main_Window/:
 
+
+
 ## Installation and setup
   #### Requirements
   - Python 3.14 or later
   - Git
-  - PyQt6 
+  - PyQt6
+  - Internet connection
 
   
   #### Installation
   
-  1. Clone the repository:
-  git clone <repository-url>
-  cd MovieOwl
+## Installation and Setup
 
-  2. Create a virtual environment:
-  python -m venv .venv
-  
-  3. Activate the virtual environment.
+### Requirements
+- Python 3.14
+- Git
+- PyQt6 (installed in step 4)
 
-     in Windows PowerShell:
+### Installation
 
-     .\.venv\Scripts\Activate.ps1
-  
-  4. Install the required dependency:
+1. Clone the repository:
 
-      pip install PyQt6
-  
-  7. Run the application:
-     
-      python main.py
+```powershell
+   git clone https://github.com/BrotherJorg/MovieOwl.git
+   cd MovieOwl
+```
+
+2. Create a virtual environment:
+
+```powershell
+   python -m venv .venv
+```
+
+3. Activate the virtual environment.
+
+   Windows PowerShell:
+
+```powershell
+   .\.venv\Scripts\Activate.ps1
+```
+
+   macOS / Linux:
+
+```bash
+   source .venv/bin/activate
+```
+
+4. Install the required dependency:
+
+```powershell
+   pip install PyQt6
+```
+
+5. Run the application:
+
+```powershell
+   python main.py
+```
+
+When setup is successful, the application window opens on the Dashboard.
 
  ## How to use the application
 
