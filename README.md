@@ -78,6 +78,8 @@ Allows user created collections/playlists of movies.
   - Manrope font for the application interface.
   - SVG icons for the graphical interface.
 
+
+
 ## Project Structure
     MovieOwl/
     ├── Assets/
@@ -197,6 +199,9 @@ When setup is successful, the application window opens on the Dashboard.
 10. **Pick a movie to watch.** Open Movie Picker to get a random movie and its details. Open Recommendations to see a ranked list of unwatched, highly rated movies.
 
 11. **Read the Dashboard.** Return to the Dashboard to see the total number of movies, how many are Watched, Watching, and Unwatched, the number of movies per genre, and the average rating.
+
+
+
 
 ## OOP Implementation
 
