@@ -102,7 +102,7 @@ Allows user created collections/playlists of movies.
     ├── .gitignore
     ├── main.py
     ├── Movies.db
-└── README.md
+    └── README.md
 
 Root files
 main.py:
