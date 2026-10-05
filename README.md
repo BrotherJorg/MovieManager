@@ -121,17 +121,8 @@ collections/:
 favorites/:
 main_Window/:
 
-
-
-## Installation and setup
-  #### Requirements
-  - Python 3.14 or later
-  - Git
-  - PyQt6
-  - Internet connection
-
   
-  #### Installation
+#### Installation
   
 ## Installation and Setup
 
