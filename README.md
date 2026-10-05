@@ -293,3 +293,9 @@ The primary key is the pair (movie_id, collection_id), so a movie can be in many
 The Dashboard uses aggregate queries (`COUNT`, `AVG`, `GROUP BY genre`) for the totals, status counts, movies per genre, and the average rating.
 
 ## Screenshots
+### Dashboard
+<img width="2836" height="1765" alt="Dashboard" src="https://github.com/user-attachments/assets/3a3c0808-ca0f-4368-b707-20a83d960c0a" />
+
+The initial page at startup, that displays simplified information, such as total movies, movies per genre, movies watched or watching.
+
+
