@@ -19,6 +19,17 @@ class CollectionService:
     def getAllCollections(self):
         return self.repository.getAllCollections()
 
+    def getCollectionByName(self, name):
+
+        collections = self.repository.getAllCollections()
+
+        for collection in collections:
+
+            if collection[1] == name:
+                return collection
+
+        return None
+
     def deleteCollection(self, collection_id):
         self.repository.deleteCollection(collection_id)
 

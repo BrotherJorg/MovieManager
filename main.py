@@ -42,6 +42,9 @@ from features.collections.service import CollectionService
 
 from features.collections.view import CollectionsView
 
+from features.favorites.service import FavoritesService
+from features.favorites.view import FavoritesView
+
 
 repository = MovieRepository()
 
@@ -69,6 +72,8 @@ collectionRepository = CollectionRepository()
 
 collectionService = CollectionService(collectionRepository)
 
+favoritesService = FavoritesService( collectionService)
+
 app = QApplication(sys.argv)
 
 fontId = QFontDatabase.addApplicationFont(
@@ -91,7 +96,8 @@ manageMoviesView = ManageMoviesView(
 
     service,
 
-    reviewNotesService
+    reviewNotesService,
+    favoritesService
 
 )
 
@@ -103,6 +109,21 @@ recommendationsView = RecommendationsView(recommendationService)
 
 collectionsView = CollectionsView(collectionService)
 
+favoritesView = FavoritesView( favoritesService)
+
+manageMoviesView.movieChanged.connect(
+    dashboardView.refresh
+)
+
+manageMoviesView.movieChanged.connect(
+    recommendationsView.refresh
+)
+
+manageMoviesView.movieChanged.connect(
+    favoritesView.refresh
+)
+
+
 window = MainWindow(
 
     manageMoviesView,
@@ -113,7 +134,8 @@ window = MainWindow(
 
     recommendationsView,
 
-    collectionsView
+    collectionsView,
+    favoritesView
 
 )
 
