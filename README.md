@@ -25,7 +25,33 @@ MovieOwl solves this problem by packaging a movie record, recommendation, note a
 Display current database records and simple statistics in a neat, readable format.
   	
 - Allows the user to see total number of movies, number of watched, watching, unwatched movies and displays number of movies per genre and the average rating in the whole collection.
-- - Display dashboard at the start of application.
+- Display dashboard at the start of application.
+  
+### Movie Management
+Display table of movies.
+- Allows adding, editing, viewing details, deleting of movie records.
+- Allows user keyword searching, filtering by genres, by watch status.
+- Provide the user buttons for changing watch status (added movies unwatched by default), for toggling a movie as favorites.
+
+### Review
+Allows writing of review and notes text.
+-  Save each movie review persistently.
+
+### Recommendation
+Allows recommendation in two ways, a random movie or through a score.
+- Provide selection of a random movie and displays it’s details.
+- Provide consistent recommendations on recommendation page with movie ranking prioritizing unwatched movies.
+
+### User Collection
+Allows user created collections/playlists of movies.
+- Allows reation of custom named collection.
+- Allows adding of movies to one or more collection.
+- A default collection called favorites exits and movie added to favorites are automatically added on it.
+
+### Favorites
+Display recent favorites
+- Allows viewing of favorite movies and their details.
+
 
 
 ## Technologies used
