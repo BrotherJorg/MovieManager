@@ -183,7 +183,29 @@ main_Window/:
 
 When setup is successful, the application window opens on the Dashboard.
 
- ## How to use the application
+ ## How to Use the Application
+
+1. **Launch the application.** Run `python main.py`. The Dashboard opens first and shows the collection statistics.
+
+2. **Navigate between screens.** Use the sidebar to open Dashboard, Manage Movies, Movie Picker, Recommendations, Collections, and Favorites.
+
+3. **Add a movie.** Open Manage Movies, choose the add option, fill in the movie details, and save. The new movie appears in the table with the watch status Unwatched.
+
+4. **View, edit, or delete a movie.** Select a movie in the table to see its details, then edit or delete it.
+
+5. **Search and filter.** Type a keyword in the search box to find movies. Use the filters to narrow the table by genre or watch status.
+
+6. **Change the watch status.** Set a movie to Unwatched, Watching, or Watched.
+
+7. **Rate and review a movie.** Open a movie's review screen to give it a rating, write a review, and add a personal note. Each movie keeps its own review and notes.
+
+8. **Mark a favorite.** Toggle a movie as a favorite. It is added to the default Favorites collection, and you can browse it on the Favorites screen.
+
+9. **Create a collection.** Open Collections, create a collection with a custom name, and add movies to it. A movie can belong to more than one collection.
+
+10. **Pick a movie to watch.** Open Movie Picker to get a random movie and its details. Open Recommendations to see a ranked list of unwatched, highly rated movies.
+
+11. **Read the Dashboard.** Return to the Dashboard to see the total number of movies, how many are Watched, Watching, and Unwatched, the number of movies per genre, and the average rating.
 
 
   
