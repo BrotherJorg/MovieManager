@@ -303,5 +303,31 @@ The main page where user add, edits and interacts with their collection, searchi
 <img width="2812" height="1747" alt="Collections" src="https://github.com/user-attachments/assets/fb9c6d0a-ed6f-4432-8c48-b98ea0495123" />
 The page for user created collections, default collection is "favorites" movies toggled favorites are automatically added here. User can also create their own.
 
+## Testing
+
+The system was tested by performing the main operations and comparing the expected and actual results.
+
+| Feature | Expected Result | Actual Result |
+|---|---|---|
+| Add/Edit/Delete Movie | Movie data is correctly changed | Passed |
+| Search & Filter | Matching movies are displayed | Passed |
+| Watch Status | Selected status is saved | Passed |
+| Reviews & Notes | Information is saved and displayed | Passed |
+| Collections | Movies can be added and removed | Passed |
+| Favorites | Movies can be added or removed from Favorites | Passed |
+| Dashboard | Statistics reflect current data | Passed |
+| Recommendations | Recommendations are generated | Passed |
+| Movie Picker | A movie is randomly selected | Passed |
+
+## Known Issues / Limitations
+
+- Movie information must be entered manually.
+- The application does not currently use an external movie API.
+- The system is designed for local, single-user use.
+
+
+## Author
+Garth June Saballa
+CS26, 3581, 2026-2027
 
 
