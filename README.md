@@ -207,5 +207,50 @@ When setup is successful, the application window opens on the Dashboard.
 
 11. **Read the Dashboard.** Return to the Dashboard to see the total number of movies, how many are Watched, Watching, and Unwatched, the number of movies per genre, and the average rating.
 
+### Database Structure
+MovieOwl stores its data in a local SQLite database, `Movies.db`. The `Database` class in `db/database.py` opens the connection and creates the tables on startup if they don't exist, so the database is rebuilt automatically when the file is missing. The database has three tables: movies, collections, and a link table that connects them.
 
-  
+### Important Tables
+
+**movies**: stores each movie record.
+
+| Column | Type | Description |
+|---|---|---|
+| id | INTEGER, primary key, autoincrement | Unique movie ID |
+| title | TEXT, required | Movie title |
+| genre | TEXT, required | Movie genre |
+| year | INTEGER, required | Release year |
+| rating | REAL, required | User rating (TODO: scale, e.g. 0 to 10) |
+| status | TEXT, required, default `Unwatched` | Watch status |
+| review | TEXT, optional | Personal review |
+| notes | TEXT, optional | Personal notes |
+
+**collections**: stores user-created collections.
+
+| Column | Type | Description |
+|---|---|---|
+| id | INTEGER, primary key, autoincrement | Unique collection ID |
+| name | TEXT, required, unique | Collection name |
+
+A default collection named Favorites is inserted automatically.
+
+**movie_collections**: links movies to collections (many-to-many).
+
+| Column | Type | Description |
+|---|---|---|
+| movie_id | INTEGER, foreign key | References movies(id) |
+| collection_id | INTEGER, foreign key | References collections(id) |
+
+The primary key is the pair (movie_id, collection_id), so a movie can be in many collections but only once in each. Both keys are defined with `ON DELETE CASCADE`.
+
+### Database Operations
+
+| Operation | What the system does | Example SQL |
+|---|---|---|
+| Create | Adds a movie, creates a collection, adds a movie to a collection or to Favorites | `INSERT INTO movies (title, genre, year, rating) VALUES (?, ?, ?, ?)` |
+| Read | Loads the movie table and details, the collections, favorites, and the dashboard statistics | `SELECT * FROM movies` |
+| Update | Edits a movie, changes its watch status, saves its review and notes | `UPDATE movies SET status = ? WHERE id = ?` |
+| Delete | Removes a movie, or removes a movie from a collection | `DELETE FROM movies WHERE id = ?` |
+| Search | Finds movies by keyword and filters by genre or watch status | `SELECT * FROM movies WHERE title LIKE ?` |
+
+The Dashboard uses aggregate queries (`COUNT`, `AVG`, `GROUP BY genre`) for the totals, status counts, movies per genre, and the average rating.
